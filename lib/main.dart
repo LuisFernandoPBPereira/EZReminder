@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: const Text('EZ-Reminder'),
+      home: const Text('EZReminder'),
     );
   }
 }
