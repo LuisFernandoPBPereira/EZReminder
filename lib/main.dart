@@ -1,20 +1,15 @@
+import 'package:ez_reminder/screens/home.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const EzReminder());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class EzReminder extends StatelessWidget {
+  const EzReminder({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'EZReminder',
-      theme: ThemeData(
-        useMaterial3: true,
-      ),
-      home: const Text('EZReminder'),
-    );
+    return MaterialApp(title: "EZReminder", home: Home());
   }
 }
