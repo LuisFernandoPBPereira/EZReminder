@@ -1,4 +1,5 @@
 import 'package:ez_reminder/screens/home.dart';
+import 'package:ez_reminder/screens/login.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,6 +11,6 @@ class EzReminder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: "EZReminder", home: Home());
+    return MaterialApp(title: "EZReminder", home: Login(key: key));
   }
 }
