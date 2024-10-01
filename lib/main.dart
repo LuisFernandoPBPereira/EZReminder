@@ -1,6 +1,7 @@
 import 'package:ez_reminder/screens/email_redefinicao_de_senha.dart';
 import 'package:ez_reminder/screens/home.dart';
 import 'package:ez_reminder/screens/login.dart';
+import 'package:ez_reminder/screens/nova_senha.dart';
 import 'package:ez_reminder/screens/redefinicao_de_senha.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,8 @@ class EzReminder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: "EZReminder", home: Login(key: key));
+    return MaterialApp(title: "EZReminder", home: Login());
     // return MaterialApp(title: "EZReminder", home: EmailRedefinicaoDeSenha());
+    // return MaterialApp(title: "EZReminder", home: NovaSenha());
   }
 }

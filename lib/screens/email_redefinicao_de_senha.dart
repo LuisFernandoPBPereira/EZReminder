@@ -1,4 +1,5 @@
 import 'package:ez_reminder/global/ezreminder_colors.dart';
+import 'package:ez_reminder/screens/nova_senha.dart';
 import 'package:flutter/material.dart';
 
 class EmailRedefinicaoDeSenha extends StatefulWidget {
@@ -245,7 +246,10 @@ class _EmailRedefinicaoDeSenhaState extends State<EmailRedefinicaoDeSenha> {
                 height: 49,
                 child: ElevatedButton(
                   focusNode: _focusNode7,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => NovaSenha()));
+                  },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Color(EzreminderColors.primaryVerde),
                       shape: const RoundedRectangleBorder(
