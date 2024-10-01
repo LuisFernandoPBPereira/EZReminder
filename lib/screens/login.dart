@@ -1,5 +1,6 @@
 import 'package:ez_reminder/global/ezreminder_colors.dart';
 import 'package:ez_reminder/screens/home.dart';
+import 'package:ez_reminder/screens/redefinicao_de_senha.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatelessWidget {
@@ -13,7 +14,6 @@ class Login extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color(EzreminderColors.backgroundPreto),
       body: Container(
-        padding: const EdgeInsets.all(16.0),
         child: Column(
           // crossAxisAlignment: CrossAxisAlignment.center,
           // mainAxisAlignment: MainAxisAlignment.center,
@@ -23,7 +23,7 @@ class Login extends StatelessWidget {
               child: Image.asset("Logo.png"),
             ),
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 30),
+              margin: const EdgeInsets.symmetric(horizontal: 90, vertical: 30),
               child: const Text(
                 "Faça o login com sua conta",
                 style: TextStyle(
@@ -37,7 +37,7 @@ class Login extends StatelessWidget {
               margin: const EdgeInsets.only(bottom: 25),
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 44.0, vertical: 0),
+                    const EdgeInsets.symmetric(horizontal: 60.0, vertical: 0),
                 child: TextField(
                   controller: _email,
                   decoration: InputDecoration(
@@ -58,7 +58,7 @@ class Login extends StatelessWidget {
                     margin: const EdgeInsets.only(bottom: 10),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 44.0, vertical: 0),
+                          horizontal: 60.0, vertical: 0),
                       child: TextField(
                         controller: _senha,
                         decoration: InputDecoration(
@@ -72,10 +72,13 @@ class Login extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      print("Clicado");
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RedefinicaoDeSenha()));
                     },
                     child: const Padding(
-                      padding: EdgeInsets.only(left: 44.0),
+                      padding: EdgeInsets.only(left: 60.0),
                       child: Text(
                         "Esqueceu sua senha?",
                         style: TextStyle(fontSize: 16, color: Colors.white),
