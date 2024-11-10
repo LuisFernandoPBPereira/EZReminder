@@ -15,7 +15,8 @@ class EzReminder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // return MaterialApp(title: "EZReminder", home: Home());
-    return MaterialApp(title: "EZReminder", home: Login());
+    return MaterialApp(
+        debugShowCheckedModeBanner: false, title: "EZReminder", home: Login());
     // return MaterialApp(title: "EZReminder", home: EmailRedefinicaoDeSenha());
     // return MaterialApp(title: "EZReminder", home: NovaSenha());
   }

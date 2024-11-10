@@ -127,18 +127,6 @@ class Login extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 40),
-              child: const Text(
-                "Ou entre com",
-                style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 20),
-              ),
-            ),
-            GestureDetector(
-                onTap: () {
-                  print("Clicado");
-                },
-                child: Image.asset("LogoGoogle.png")),
           ],
         ),
       ),
