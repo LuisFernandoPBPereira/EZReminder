@@ -1,4 +1,6 @@
+import 'package:ez_reminder/screens/configuracoes.dart';
 import 'package:ez_reminder/screens/criar_lembrete.dart';
+import 'package:ez_reminder/screens/criar_tipo_de_lembrete.dart';
 import 'package:ez_reminder/screens/email_redefinicao_de_senha.dart';
 import 'package:ez_reminder/screens/home.dart';
 import 'package:ez_reminder/screens/login.dart';
@@ -27,7 +29,7 @@ class EzReminder extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "EZReminder",
-        home: TiposDeLembrete());
+        home: Configuracoes());
     // return MaterialApp(title: "EZReminder", home: EmailRedefinicaoDeSenha());
     // return MaterialApp(title: "EZReminder", home: NovaSenha());
   }

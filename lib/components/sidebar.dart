@@ -1,5 +1,7 @@
 import 'package:ez_reminder/global/ezreminder_colors.dart';
+import 'package:ez_reminder/screens/configuracoes.dart';
 import 'package:ez_reminder/screens/criar_lembrete.dart';
+import 'package:ez_reminder/screens/criar_tipo_de_lembrete.dart';
 import 'package:ez_reminder/screens/home.dart';
 import 'package:ez_reminder/screens/tipos_de_lembrete.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +13,16 @@ class Sidebar extends StatelessWidget {
       backgroundColor: Color(EzreminderColors.backgroundPreto),
       child: ListView(
         children: [
-          DrawerHeader(child: Text("Cabeçalho")),
+          DrawerHeader(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Olá, Usuário!",
+                  style: TextStyle(
+                    color: Color(EzreminderColors.branco),
+                  ))
+            ],
+          )),
           ListTile(
             leading: Icon(
               Icons.home,
@@ -64,7 +75,10 @@ class Sidebar extends StatelessWidget {
               style: TextStyle(color: Color(EzreminderColors.branco)),
             ),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CriarTipoDeLembrete()),
+              );
             },
           ),
           ListTile(
@@ -108,7 +122,10 @@ class Sidebar extends StatelessWidget {
               style: TextStyle(color: Color(EzreminderColors.branco)),
             ),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Configuracoes()),
+              );
             },
           ),
         ],
