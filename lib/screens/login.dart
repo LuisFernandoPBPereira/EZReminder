@@ -1,3 +1,4 @@
+import 'package:ez_reminder/components/custom_button.dart';
 import 'package:ez_reminder/global/ezreminder_colors.dart';
 import 'package:ez_reminder/screens/home.dart';
 import 'package:ez_reminder/screens/redefinicao_de_senha.dart';
@@ -89,32 +90,18 @@ class Login extends StatelessWidget {
               ),
             ),
             Container(
-              margin: const EdgeInsets.only(top: 70),
-              child: ElevatedButton(
-                onPressed: () {
-                  if (_email.text == "luis@exemplo.com" &&
-                      _senha.text == "123") {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Home()),
-                    );
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(EzreminderColors.primaryVerde),
-                  textStyle: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold),
-                  fixedSize: const Size(245, 49),
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8))),
-                ),
-                child: Text(
-                  "Entrar",
-                  style:
-                      TextStyle(color: Color(EzreminderColors.backgroundPreto)),
-                ),
-              ),
-            ),
+                margin: const EdgeInsets.only(top: 70),
+                child: CustomButton(
+                    label: "Entrar",
+                    onPressed: () {
+                      if (_email.text == "luis@exemplo.com" &&
+                          _senha.text == "123") {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const Home()),
+                        );
+                      }
+                    })),
             Container(
               margin: const EdgeInsets.only(top: 20),
               child: GestureDetector(

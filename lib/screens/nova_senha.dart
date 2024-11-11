@@ -1,3 +1,4 @@
+import 'package:ez_reminder/components/custom_button.dart';
 import 'package:ez_reminder/global/ezreminder_colors.dart';
 import 'package:ez_reminder/screens/login.dart';
 import 'package:flutter/material.dart';
@@ -63,20 +64,14 @@ class NovaSenha extends StatelessWidget {
             SizedBox(
               width: 245,
               height: 49,
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(EzreminderColors.primaryVerde),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8))),
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Login()));
-                  },
-                  child: Text("Salvar Senha",
-                      style: TextStyle(
-                          color: Color(EzreminderColors.backgroundPreto),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20))),
+              child: CustomButton(
+                  label: "Salvar Senha",
+                  onPressed: () => {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Login()))
+                      }),
             )
           ],
         ),

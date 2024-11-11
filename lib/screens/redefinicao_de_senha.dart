@@ -1,3 +1,4 @@
+import 'package:ez_reminder/components/custom_button.dart';
 import 'package:ez_reminder/global/ezreminder_colors.dart';
 import 'package:ez_reminder/screens/email_redefinicao_de_senha.dart';
 import 'package:flutter/material.dart';
@@ -39,29 +40,16 @@ class RedefinicaoDeSenha extends StatelessWidget {
               ),
             ),
             Container(
-              padding: const EdgeInsets.only(top: 40),
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => EmailRedefinicaoDeSenha()));
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(EzreminderColors.primaryVerde),
-                  fixedSize: const Size(245, 49),
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8))),
-                ),
-                child: Text(
-                  "Enviar Código",
-                  style: TextStyle(
-                      color: Color(EzreminderColors.backgroundPreto),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20),
-                ),
-              ),
-            ),
+                padding: const EdgeInsets.only(top: 40),
+                child: CustomButton(
+                    label: "Enviar Código",
+                    onPressed: () => {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      EmailRedefinicaoDeSenha()))
+                        })),
           ],
         ),
       ),

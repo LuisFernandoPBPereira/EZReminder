@@ -1,3 +1,4 @@
+import 'package:ez_reminder/components/custom_button.dart';
 import 'package:ez_reminder/global/ezreminder_colors.dart';
 import 'package:ez_reminder/screens/nova_senha.dart';
 import 'package:flutter/material.dart';
@@ -242,27 +243,16 @@ class _EmailRedefinicaoDeSenhaState extends State<EmailRedefinicaoDeSenha> {
             Container(
               margin: const EdgeInsets.fromLTRB(95, 40, 95, 100),
               child: SizedBox(
-                width: 245,
-                height: 49,
-                child: ElevatedButton(
-                  focusNode: _focusNode7,
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => NovaSenha()));
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(EzreminderColors.primaryVerde),
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)))),
-                  child: Text(
-                    "Confirmar",
-                    style: TextStyle(
-                        color: Color(EzreminderColors.backgroundPreto),
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
+                  width: 245,
+                  height: 49,
+                  child: CustomButton(
+                      label: "Confirmar",
+                      onPressed: () => {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => NovaSenha()))
+                          })),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

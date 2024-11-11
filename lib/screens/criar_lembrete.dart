@@ -1,3 +1,4 @@
+import 'package:ez_reminder/components/custom_button.dart';
 import 'package:ez_reminder/components/sidebar.dart';
 import 'package:ez_reminder/global/ezreminder_colors.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class _CriarLembreteState extends State<CriarLembrete> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Selecione uma cor'),
+          title: const Text('Selecione uma cor'),
           content: SingleChildScrollView(
             child: ColorPicker(
               pickerColor: selectedColor,
@@ -54,10 +55,9 @@ class _CriarLembreteState extends State<CriarLembrete> {
     Future<void> selectTime(BuildContext context) async {
       final TimeOfDay? pickedTime = await showTimePicker(
         context: context,
-        initialTime: TimeOfDay.now(), // Hora inicial
+        initialTime: TimeOfDay.now(),
       );
       if (pickedTime != null) {
-        // Atualiza o texto com a hora selecionada
         timeText.value = 'Hora selecionada: ${pickedTime.format(context)}';
       }
     }
@@ -65,9 +65,9 @@ class _CriarLembreteState extends State<CriarLembrete> {
     Future<void> selectDate(BuildContext context) async {
       final DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: selectedDate ?? DateTime.now(), // Data inicial
-        firstDate: DateTime(2000), // Primeira data disponível
-        lastDate: DateTime(2100), // Última data disponível
+        initialDate: selectedDate ?? DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2100),
       );
 
       if (picked != null && picked != selectedDate) {
@@ -79,6 +79,7 @@ class _CriarLembreteState extends State<CriarLembrete> {
     }
 
     @override
+    // ignore: unused_element
     void dispose() {
       timeText.dispose();
       dateText.dispose();
@@ -193,108 +194,46 @@ class _CriarLembreteState extends State<CriarLembrete> {
                       borderRadius: BorderRadius.circular(20)),
                 ),
                 Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      pickColor(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(EzreminderColors.primaryVerde),
-                      textStyle: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
-                      fixedSize: const Size(245, 49),
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8))),
-                    ),
-                    child: Text(
-                      "Escolher Cor",
-                      style: TextStyle(
-                          color: Color(EzreminderColors.backgroundPreto)),
-                    ),
-                  ),
-                ),
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+                    child: CustomButton(
+                        label: "Escolher Cor",
+                        onPressed: () => pickColor(context))),
                 ValueListenableBuilder<String>(
                   valueListenable: timeText,
                   builder: (context, value, child) {
                     return Text(
                       value,
-                      style: TextStyle(fontSize: 18, color: Color(0xFFFFFFFF)),
+                      style: const TextStyle(
+                          fontSize: 18, color: Color(0xFFFFFFFF)),
                     );
                   },
                 ),
                 Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      selectTime(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(EzreminderColors.primaryVerde),
-                      textStyle: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
-                      fixedSize: const Size(245, 49),
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8))),
-                    ),
-                    child: Text(
-                      "Escolher Horário",
-                      style: TextStyle(
-                          color: Color(EzreminderColors.backgroundPreto)),
-                    ),
-                  ),
-                ),
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+                    child: CustomButton(
+                        label: "Escolher Horário",
+                        onPressed: () => selectTime(context))),
                 ValueListenableBuilder<String>(
                   valueListenable: dateText,
                   builder: (context, value, child) {
                     return Text(
                       value,
-                      style: TextStyle(fontSize: 18, color: Color(0xFFFFFFFF)),
+                      style: const TextStyle(
+                          fontSize: 18, color: Color(0xFFFFFFFF)),
                     );
                   },
                 ),
                 Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      selectDate(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(EzreminderColors.primaryVerde),
-                      textStyle: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
-                      fixedSize: const Size(245, 49),
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8))),
-                    ),
-                    child: Text(
-                      "Escolher Data",
-                      style: TextStyle(
-                          color: Color(EzreminderColors.backgroundPreto)),
-                    ),
-                  ),
-                ),
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+                    child: CustomButton(
+                        label: "Escolher Data",
+                        onPressed: () => selectDate(context))),
                 Container(
-                  margin: const EdgeInsets.only(top: 20),
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(EzreminderColors.primaryVerde),
-                      textStyle: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
-                      fixedSize: const Size(245, 49),
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8))),
-                    ),
-                    child: Text(
-                      "Salvar",
-                      style: TextStyle(
-                          color: Color(EzreminderColors.backgroundPreto)),
-                    ),
-                  ),
-                ),
+                    margin: const EdgeInsets.only(top: 20),
+                    child: CustomButton(label: "Salvar", onPressed: () {})),
               ],
             ),
           ),
