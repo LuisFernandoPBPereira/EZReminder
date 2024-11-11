@@ -1,6 +1,7 @@
 import 'package:ez_reminder/global/ezreminder_colors.dart';
 import 'package:ez_reminder/screens/criar_lembrete.dart';
 import 'package:ez_reminder/screens/home.dart';
+import 'package:ez_reminder/screens/tipos_de_lembrete.dart';
 import 'package:flutter/material.dart';
 
 class Sidebar extends StatelessWidget {
@@ -29,8 +30,8 @@ class Sidebar extends StatelessWidget {
             },
           ),
           ListTile(
-            leading:
-                Icon(Icons.note_add, color: Color(EzreminderColors.branco)),
+            leading: Icon(Icons.notifications,
+                color: Color(EzreminderColors.branco)),
             title: Text(
               "Criar Lembrete",
               style: TextStyle(color: Color(EzreminderColors.branco)),
@@ -43,7 +44,21 @@ class Sidebar extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.add, color: Color(EzreminderColors.branco)),
+            leading: Icon(Icons.note, color: Color(EzreminderColors.branco)),
+            title: Text(
+              "Tipos de Lembrete",
+              style: TextStyle(color: Color(EzreminderColors.branco)),
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TiposDeLembrete()),
+              );
+            },
+          ),
+          ListTile(
+            leading:
+                Icon(Icons.note_add, color: Color(EzreminderColors.branco)),
             title: Text(
               "Criar Tipo do Lembrete",
               style: TextStyle(color: Color(EzreminderColors.branco)),

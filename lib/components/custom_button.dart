@@ -21,6 +21,7 @@ class CustomButton extends StatelessWidget {
       child: Text(
         label,
         style: TextStyle(color: Color(EzreminderColors.backgroundPreto)),
+        textAlign: TextAlign.center,
       ),
     );
   }

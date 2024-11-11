@@ -1,8 +1,10 @@
+import 'package:ez_reminder/screens/criar_lembrete.dart';
 import 'package:ez_reminder/screens/email_redefinicao_de_senha.dart';
 import 'package:ez_reminder/screens/home.dart';
 import 'package:ez_reminder/screens/login.dart';
 import 'package:ez_reminder/screens/nova_senha.dart';
 import 'package:ez_reminder/screens/redefinicao_de_senha.dart';
+import 'package:ez_reminder/screens/tipos_de_lembrete.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,8 +18,16 @@ class EzReminder extends StatelessWidget {
   Widget build(BuildContext context) {
     // return MaterialApp(
     //     debugShowCheckedModeBanner: false, title: "EZReminder", home: Login());
+    // return MaterialApp(
+    // debugShowCheckedModeBanner: false, title: "EZReminder", home: Home());
+    // return MaterialApp(
+    //     debugShowCheckedModeBanner: false,
+    //     title: "EZReminder",
+    //     home: CriarLembrete());
     return MaterialApp(
-        debugShowCheckedModeBanner: false, title: "EZReminder", home: Home());
+        debugShowCheckedModeBanner: false,
+        title: "EZReminder",
+        home: TiposDeLembrete());
     // return MaterialApp(title: "EZReminder", home: EmailRedefinicaoDeSenha());
     // return MaterialApp(title: "EZReminder", home: NovaSenha());
   }
