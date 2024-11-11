@@ -1,5 +1,6 @@
 import 'package:ez_reminder/components/custom_button.dart';
 import 'package:ez_reminder/components/sidebar.dart';
+import 'package:ez_reminder/components/titulo.dart';
 import 'package:ez_reminder/global/ezreminder_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -119,17 +120,7 @@ class _CriarLembreteState extends State<CriarLembrete> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 0, vertical: 45),
-                    child: Text(
-                      "Criar Lembrete",
-                      style: TextStyle(
-                          color: Color(EzreminderColors.branco),
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    )),
+                const Titulo(texto: "Criar Lembrete"),
                 Container(
                   margin: const EdgeInsets.only(bottom: 25),
                   child: Padding(

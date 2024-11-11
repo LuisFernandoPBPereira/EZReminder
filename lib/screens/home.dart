@@ -1,4 +1,6 @@
+import 'package:ez_reminder/components/card_lembrete.dart';
 import 'package:ez_reminder/components/sidebar.dart';
+import 'package:ez_reminder/components/titulo.dart';
 import 'package:ez_reminder/global/ezreminder_colors.dart';
 import 'package:ez_reminder/screens/criar_lembrete.dart';
 import 'package:ez_reminder/screens/login.dart';
@@ -38,58 +40,13 @@ class Home extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Container(
-                  margin: const EdgeInsets.only(top: 40),
-                  child: Text(
-                    "Meus Lembretes",
-                    style: TextStyle(
-                        color: Color(EzreminderColors.branco),
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  )),
-              Container(
-                margin: const EdgeInsets.fromLTRB(40, 50, 40, 25),
-                child: SizedBox(
-                  width: 300,
-                  height: 120,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              Color(EzreminderColors.backgroundPreto),
-                          elevation: 20,
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(16)))),
-                      onPressed: () {},
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Lembrete 1",
-                                style: TextStyle(
-                                    color: Color(EzreminderColors.branco)),
-                              ),
-                              Icon(
-                                Icons.edit,
-                                color: Color(EzreminderColors.branco),
-                              )
-                            ],
-                          ),
-                          Text(
-                            "Tipo do lembrete: Tipo",
-                            style: TextStyle(
-                                color: Color(EzreminderColors.branco)),
-                            textAlign: TextAlign.left,
-                          )
-                        ],
-                      )),
-                ),
-              )
+              const Titulo(
+                texto: "Meus Lembretes",
+              ),
+              CardLembrete(
+                  titulo: 'Lembrete 1',
+                  tipoLembrete: 'Faculdade',
+                  onPresssed: () {})
             ],
           ),
         ),
