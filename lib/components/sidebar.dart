@@ -3,6 +3,7 @@ import 'package:ez_reminder/screens/configuracoes.dart';
 import 'package:ez_reminder/screens/criar_lembrete.dart';
 import 'package:ez_reminder/screens/criar_tipo_de_lembrete.dart';
 import 'package:ez_reminder/screens/home.dart';
+import 'package:ez_reminder/screens/perfil.dart';
 import 'package:ez_reminder/screens/tipos_de_lembrete.dart';
 import 'package:flutter/material.dart';
 
@@ -100,7 +101,10 @@ class Sidebar extends StatelessWidget {
               style: TextStyle(color: Color(EzreminderColors.branco)),
             ),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Perfil()),
+              );
             },
           ),
           ListTile(
