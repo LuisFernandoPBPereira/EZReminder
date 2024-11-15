@@ -1,4 +1,5 @@
 import 'package:ez_reminder/components/custom_button.dart';
+import 'package:ez_reminder/components/dropdown.dart';
 import 'package:ez_reminder/components/sidebar.dart';
 import 'package:ez_reminder/components/titulo.dart';
 import 'package:ez_reminder/global/ezreminder_colors.dart';
@@ -160,15 +161,15 @@ class _CriarLembreteState extends State<CriarLembrete> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 60.0, vertical: 0),
-                    child: TextField(
-                      controller: tipoDoLembrete,
-                      decoration: InputDecoration(
-                        labelStyle:
-                            TextStyle(color: Color(EzreminderColors.branco)),
-                        labelText: "Tipo do Lembrete",
-                        border: const UnderlineInputBorder(),
-                      ),
-                      style: const TextStyle(color: Color(0xFFFFFFFF)),
+                    child: Dropdown(
+                      items: const [
+                        {"id": 1, "tipoLembrete": "Academia"},
+                        {"id": 2, "tipoLembrete": "Trabalho"},
+                        {"id": 3, "tipoLembrete": "Faculdade"}
+                      ],
+                      hint: "Selecione um tipo de lembrete",
+                      displayKey: "tipoLembrete",
+                      onChanged: (a) => {},
                     ),
                   ),
                 ),
