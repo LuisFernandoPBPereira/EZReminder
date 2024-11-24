@@ -8,20 +8,32 @@ import 'package:ez_reminder/repository/tipo_lembrete_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
-class CriarLembrete extends StatefulWidget {
-  const CriarLembrete({super.key});
+class EditarLembrete extends StatefulWidget {
+  final LembreteModel lembreteModel;
+
+  const EditarLembrete({super.key, required this.lembreteModel});
 
   @override
-  _CriarLembreteState createState() => _CriarLembreteState();
+  _EditarLembreteState createState() =>
+      _EditarLembreteState(lembreteModel: lembreteModel);
 }
 
-class _CriarLembreteState extends State<CriarLembrete> {
+class _EditarLembreteState extends State<EditarLembrete> {
+  final LembreteModel lembreteModel;
+  Color selectedColor = Colors.blue;
   ValueNotifier<String> dateText = ValueNotifier('Nenhuma data selecionada');
   ValueNotifier<String> timeText = ValueNotifier('Nenhuma hora selecionada');
 
-  Color selectedColor = Colors.blue; // Cor inicial
+  _EditarLembreteState({required this.lembreteModel}) {
+    selectedColor = Color(lembreteModel.cor);
+    dateText.value =
+        'Data selecionada: ${lembreteModel.data.day}/${lembreteModel.data.month}/${lembreteModel.data.year}';
+    timeText.value =
+        'Hora selecionada: ${lembreteModel.hora.hour}:${lembreteModel.hora.minute}';
+  }
 
   void pickColor(BuildContext context) {
+    selectedColor = Color(lembreteModel.cor);
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -54,15 +66,8 @@ class _CriarLembreteState extends State<CriarLembrete> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController nomeDoLembrete = TextEditingController();
-    TextEditingController descricaoDoLembrete = TextEditingController();
-    int tipoLembreteId;
-    Map<String, dynamic> selectedItem = Map<String, dynamic>();
-    TimeOfDay horaSelecionada = TimeOfDay.now();
-
     var tipoLembreteRepository = TipoLembreteRepository();
     var tiposLembretes = tipoLembreteRepository.getTiposLembretes();
-
     DateTime? selectedDate;
 
     Future<void> selectTime(BuildContext context) async {
@@ -71,12 +76,16 @@ class _CriarLembreteState extends State<CriarLembrete> {
         initialTime: TimeOfDay.now(),
       );
       if (pickedTime != null) {
-        horaSelecionada = pickedTime;
         timeText.value = 'Hora selecionada: ${pickedTime.format(context)}';
+      } else {
+        timeText.value =
+            'Hora selecionada: ${lembreteModel.hora.format(context)}';
       }
     }
 
     Future<void> selectDate(BuildContext context) async {
+      dateText.value = lembreteModel.data.toString();
+
       final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate ?? DateTime.now(),
@@ -100,20 +109,11 @@ class _CriarLembreteState extends State<CriarLembrete> {
       super.dispose();
     }
 
-    void criarLembrete() {
-      // var lembrete = LembreteModel(
-      //     id: 1,
-      //     usuarioId: 1,
-      //     nome: nomeDoLembrete.text ?? "aoba",
-      //     descricao: descricaoDoLembrete.text ?? "aobaaaa",
-      //     tipoLembreteId: 1,
-      //     // cor: int.parse(selectedColor.toHexString()),
-      //     cor: 1,
-      //     hora: horaSelecionada ?? TimeOfDay(hour: 0, minute: 0),
-      //     data: selectedDate! ?? DateTime.now());
+    TextEditingController nomeDoLembrete = TextEditingController();
+    TextEditingController descricaoDoLembrete = TextEditingController();
 
-      // print(lembrete == null);
-    }
+    nomeDoLembrete.text = lembreteModel.nome;
+    descricaoDoLembrete.text = lembreteModel.descricao;
 
     return SafeArea(
       child: Scaffold(
@@ -144,7 +144,7 @@ class _CriarLembreteState extends State<CriarLembrete> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Titulo(texto: "Criar Lembrete"),
+                const Titulo(texto: "Editar Lembrete"),
                 Container(
                   margin: const EdgeInsets.only(bottom: 25),
                   child: Padding(
@@ -193,13 +193,14 @@ class _CriarLembreteState extends State<CriarLembrete> {
                       }).toList(),
                       hint: "Selecione um tipo de lembrete",
                       displayKey: "tipoLembrete",
-                      onChanged: (selected) => {},
+                      onChanged: (a) => {},
                     ),
                   ),
                 ),
-                const Text(
+                Text(
                   'Cor selecionada:',
-                  style: TextStyle(fontSize: 18, color: Color(0xFFFFFFFF)),
+                  style: TextStyle(
+                      fontSize: 18, color: Color(EzreminderColors.branco)),
                 ),
                 const SizedBox(height: 10),
                 Container(
@@ -249,8 +250,7 @@ class _CriarLembreteState extends State<CriarLembrete> {
                         onPressed: () => selectDate(context))),
                 Container(
                     margin: const EdgeInsets.only(top: 20),
-                    child: CustomButton(
-                        label: "Salvar", onPressed: () => criarLembrete())),
+                    child: CustomButton(label: "Salvar", onPressed: () {})),
               ],
             ),
           ),

@@ -22,14 +22,14 @@ class EzReminder extends StatelessWidget {
   Widget build(BuildContext context) {
     // return MaterialApp(
     //     debugShowCheckedModeBanner: false, title: "EZReminder", home: Login());
-    // return MaterialApp(
-    // debugShowCheckedModeBanner: false, title: "EZReminder", home: Home());
+    return MaterialApp(
+        debugShowCheckedModeBanner: false, title: "EZReminder", home: Home());
     // return MaterialApp(
     //     debugShowCheckedModeBanner: false,
     //     title: "EZReminder",
     //     home: CriarLembrete());
-    return MaterialApp(
-        debugShowCheckedModeBanner: false, title: "EZReminder", home: Planos());
+    // return MaterialApp(
+    // debugShowCheckedModeBanner: false, title: "EZReminder", home: Planos());
     // return MaterialApp(title: "EZReminder", home: EmailRedefinicaoDeSenha());
     // return MaterialApp(title: "EZReminder", home: NovaSenha());
   }

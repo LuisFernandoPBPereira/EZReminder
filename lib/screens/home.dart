@@ -2,15 +2,25 @@ import 'package:ez_reminder/components/card_lembrete.dart';
 import 'package:ez_reminder/components/sidebar.dart';
 import 'package:ez_reminder/components/titulo.dart';
 import 'package:ez_reminder/global/ezreminder_colors.dart';
+import 'package:ez_reminder/models/lembrete_model.dart';
+import 'package:ez_reminder/repository/lembrete_repository.dart';
+import 'package:ez_reminder/repository/tipo_lembrete_repository.dart';
 import 'package:ez_reminder/screens/criar_lembrete.dart';
-import 'package:ez_reminder/screens/login.dart';
+import 'package:ez_reminder/screens/editar_lembrete.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({super.key});
 
   @override
   Widget build(BuildContext context) {
+    List<LembreteModel> lembretes = LembreteRepository().getLembretes();
+
+    String recuperaTipoLembrete(int id) {
+      var tipoLembrete = TipoLembreteRepository().getTipoLembreteById(id);
+      return tipoLembrete.nome;
+    }
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color(EzreminderColors.backgroundPreto),
@@ -19,7 +29,7 @@ class Home extends StatelessWidget {
           backgroundColor: Color(EzreminderColors.primaryVerde),
           leading: Builder(builder: (context) {
             return IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.menu,
                 size: 50,
               ),
@@ -43,10 +53,29 @@ class Home extends StatelessWidget {
               const Titulo(
                 texto: "Meus Lembretes",
               ),
-              CardLembrete(
-                  titulo: 'Lembrete 1',
-                  tipoLembrete: 'Faculdade',
-                  onPresssed: () {})
+              Column(
+                  children: lembretes.map((lembrete) {
+                return CardLembrete(
+                    id: lembrete.id,
+                    usuarioId: lembrete.usuarioId,
+                    titulo: lembrete.nome,
+                    descricao: lembrete.descricao,
+                    tipoLembrete: recuperaTipoLembrete(lembrete.tipoLembreteId),
+                    cor: lembrete.cor,
+                    hora: lembrete.hora.toString(),
+                    data: lembrete.data,
+                    localizacao: 'localizacao',
+                    onPresssed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditarLembrete(
+                            lembreteModel: lembrete,
+                          ),
+                        ),
+                      );
+                    });
+              }).toList()),
             ],
           ),
         ),
