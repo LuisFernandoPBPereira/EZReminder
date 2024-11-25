@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:ez_reminder/components/custom_button.dart';
 import 'package:ez_reminder/components/dropdown.dart';
 import 'package:ez_reminder/components/sidebar.dart';
 import 'package:ez_reminder/components/titulo.dart';
 import 'package:ez_reminder/global/ezreminder_colors.dart';
 import 'package:ez_reminder/models/lembrete_model.dart';
+import 'package:ez_reminder/repository/lembrete_repository.dart';
 import 'package:ez_reminder/repository/tipo_lembrete_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -16,10 +19,19 @@ class CriarLembrete extends StatefulWidget {
 }
 
 class _CriarLembreteState extends State<CriarLembrete> {
+  LembreteRepository lembreteRepository = LembreteRepository();
+  TextEditingController nomeDoLembrete = TextEditingController();
+  TextEditingController descricaoDoLembrete = TextEditingController();
   ValueNotifier<String> dateText = ValueNotifier('Nenhuma data selecionada');
   ValueNotifier<String> timeText = ValueNotifier('Nenhuma hora selecionada');
+  int tipoLembreteId = 0;
+  Map<String, dynamic> selectedItem = <String, dynamic>{};
+  DateTime? selectedDate;
+  TimeOfDay horaSelecionada = TimeOfDay.now();
 
-  Color selectedColor = Colors.blue; // Cor inicial
+  String displayTipoLembrete = "";
+
+  Color selectedColor = Colors.blue;
 
   void pickColor(BuildContext context) {
     showDialog(
@@ -54,16 +66,8 @@ class _CriarLembreteState extends State<CriarLembrete> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController nomeDoLembrete = TextEditingController();
-    TextEditingController descricaoDoLembrete = TextEditingController();
-    int tipoLembreteId;
-    Map<String, dynamic> selectedItem = Map<String, dynamic>();
-    TimeOfDay horaSelecionada = TimeOfDay.now();
-
     var tipoLembreteRepository = TipoLembreteRepository();
     var tiposLembretes = tipoLembreteRepository.getTiposLembretes();
-
-    DateTime? selectedDate;
 
     Future<void> selectTime(BuildContext context) async {
       final TimeOfDay? pickedTime = await showTimePicker(
@@ -86,6 +90,7 @@ class _CriarLembreteState extends State<CriarLembrete> {
 
       if (picked != null && picked != selectedDate) {
         setState(() {
+          selectedDate = picked;
           dateText.value =
               'Data selecionada: ${picked.day}/${picked.month}/${picked.year}';
         });
@@ -101,18 +106,50 @@ class _CriarLembreteState extends State<CriarLembrete> {
     }
 
     void criarLembrete() {
-      // var lembrete = LembreteModel(
-      //     id: 1,
-      //     usuarioId: 1,
-      //     nome: nomeDoLembrete.text ?? "aoba",
-      //     descricao: descricaoDoLembrete.text ?? "aobaaaa",
-      //     tipoLembreteId: 1,
-      //     // cor: int.parse(selectedColor.toHexString()),
-      //     cor: 1,
-      //     hora: horaSelecionada ?? TimeOfDay(hour: 0, minute: 0),
-      //     data: selectedDate! ?? DateTime.now());
+      try {
+        int cor = int.parse("0x${selectedColor.toHexString()}");
+        var lembrete = LembreteModel(
+            id: 1,
+            usuarioId: 1,
+            nome: nomeDoLembrete.text,
+            descricao: descricaoDoLembrete.text,
+            tipoLembreteId: tipoLembreteId,
+            cor: cor,
+            hora: horaSelecionada,
+            data: selectedDate!);
 
-      // print(lembrete == null);
+        lembreteRepository.criarLembrete(lembrete);
+      } catch (e) {
+        print(e);
+      }
+    }
+
+    void showSelectionBottomSheet(
+        BuildContext context, List<Map<String, dynamic>> items) {
+      showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return ListView.builder(
+            itemCount: items.length,
+            itemBuilder: (context, index) {
+              Map<String, dynamic> item = items[index];
+              return ListTile(
+                title: Text(item['tipoLembrete']),
+                onTap: () {
+                  Navigator.pop(context, item);
+                },
+              );
+            },
+          );
+        },
+      ).then((selectedItem) {
+        if (selectedItem != null) {
+          setState(() {
+            displayTipoLembrete = selectedItem['tipoLembrete'];
+            tipoLembreteId = selectedItem['id'];
+          });
+        }
+      });
     }
 
     return SafeArea(
@@ -179,23 +216,25 @@ class _CriarLembreteState extends State<CriarLembrete> {
                     ),
                   ),
                 ),
+                Text(
+                  "Tipo de Lembrete selecionado: $displayTipoLembrete",
+                  style: TextStyle(color: Color(EzreminderColors.branco)),
+                ),
                 Container(
-                  margin: const EdgeInsets.only(bottom: 10),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 60.0, vertical: 0),
-                    child: Dropdown(
-                      items: tiposLembretes.map((tipoLembrete) {
-                        return {
-                          "id": tipoLembrete.id,
-                          "tipoLembrete": tipoLembrete.nome
-                        };
-                      }).toList(),
-                      hint: "Selecione um tipo de lembrete",
-                      displayKey: "tipoLembrete",
-                      onChanged: (selected) => {},
-                    ),
-                  ),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+                  child: CustomButton(
+                      label: "Escolha um Tipo de Lembrete",
+                      onPressed: () {
+                        List<Map<String, dynamic>> tiposLembretesMap =
+                            tiposLembretes.map((tipoLembrete) {
+                          return {
+                            "id": tipoLembrete.id,
+                            "tipoLembrete": tipoLembrete.nome
+                          };
+                        }).toList();
+                        showSelectionBottomSheet(context, tiposLembretesMap);
+                      }),
                 ),
                 const Text(
                   'Cor selecionada:',

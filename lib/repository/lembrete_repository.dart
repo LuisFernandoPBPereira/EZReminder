@@ -32,4 +32,16 @@ class LembreteRepository {
 
     return lembrete;
   }
+
+  Future<void> criarLembrete(LembreteModel lembrete) {
+    return Future(
+      () {},
+    );
+  }
+
+  Future<void> editarLembrete(LembreteModel lembrete) {
+    return Future(
+      () {},
+    );
+  }
 }

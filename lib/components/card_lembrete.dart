@@ -51,33 +51,19 @@ class CardLembrete extends StatelessWidget {
                     Text(
                       titulo,
                       style: TextStyle(
-                        color: Color(EzreminderColors.branco),
-                        shadows: const [
-                          Shadow(
-                            blurRadius: 20.0,
-                            color: Colors.black,
-                            offset: Offset(0.0, 0.0),
-                          ),
-                        ],
-                      ),
+                          color: Color(EzreminderColors.backgroundPreto),
+                          fontWeight: FontWeight.bold),
                     ),
                     Icon(
                       Icons.edit,
-                      color: Color(EzreminderColors.branco),
+                      color: Color(EzreminderColors.backgroundPreto),
                     )
                   ],
                 ),
                 Text(
                   "Tipo do lembrete: $tipoLembrete",
                   style: TextStyle(
-                    color: Color(EzreminderColors.branco),
-                    shadows: const [
-                      Shadow(
-                        blurRadius: 20.0,
-                        color: Colors.black,
-                        offset: Offset(0.0, 0.0),
-                      ),
-                    ],
+                    color: Color(EzreminderColors.backgroundPreto),
                   ),
                   textAlign: TextAlign.left,
                 )

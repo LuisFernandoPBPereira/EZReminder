@@ -4,7 +4,14 @@ import 'package:ez_reminder/components/titulo.dart';
 import 'package:ez_reminder/global/ezreminder_colors.dart';
 import 'package:flutter/material.dart';
 
-class CriarTipoDeLembrete extends StatelessWidget {
+class CriarTipoDeLembrete extends StatefulWidget {
+  const CriarTipoDeLembrete({super.key});
+
+  @override
+  State<CriarTipoDeLembrete> createState() => _CriarTipoDeLembreteState();
+}
+
+class _CriarTipoDeLembreteState extends State<CriarTipoDeLembrete> {
   TextEditingController nomeTipoLembrete = TextEditingController();
 
   @override

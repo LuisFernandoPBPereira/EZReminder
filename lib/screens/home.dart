@@ -9,9 +9,14 @@ import 'package:ez_reminder/screens/criar_lembrete.dart';
 import 'package:ez_reminder/screens/editar_lembrete.dart';
 import 'package:flutter/material.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
 
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     List<LembreteModel> lembretes = LembreteRepository().getLembretes();
