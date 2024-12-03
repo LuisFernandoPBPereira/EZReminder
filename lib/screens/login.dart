@@ -1,17 +1,24 @@
 import 'package:ez_reminder/components/custom_button.dart';
+import 'package:ez_reminder/components/custom_snackbar.dart';
 import 'package:ez_reminder/global/ezreminder_colors.dart';
-import 'package:ez_reminder/screens/home.dart';
 import 'package:ez_reminder/screens/redefinicao_de_senha.dart';
+import 'package:ez_reminder/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
-class Login extends StatelessWidget {
-  const Login({Key? key}) : super(key: key);
+class Login extends StatefulWidget {
+  const Login({super.key});
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  AuthService _authService = AuthService();
+  TextEditingController _email = TextEditingController();
+  TextEditingController _senha = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _email = TextEditingController();
-    TextEditingController _senha = TextEditingController();
-
     return Scaffold(
       backgroundColor: Color(EzreminderColors.backgroundPreto),
       body: Container(
@@ -68,6 +75,7 @@ class Login extends StatelessWidget {
                             labelText: "Senha",
                             border: const UnderlineInputBorder()),
                         style: const TextStyle(color: Color(0xFFFFFFFF)),
+                        obscureText: true,
                       ),
                     ),
                   ),
@@ -92,16 +100,7 @@ class Login extends StatelessWidget {
             Container(
                 margin: const EdgeInsets.only(top: 70),
                 child: CustomButton(
-                    label: "Entrar",
-                    onPressed: () {
-                      if (_email.text == "luis@exemplo.com" &&
-                          _senha.text == "123") {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const Home()),
-                        );
-                      }
-                    })),
+                    label: "Entrar", onPressed: () => logarUsuario())),
             Container(
               margin: const EdgeInsets.only(top: 20),
               child: GestureDetector(
@@ -118,5 +117,20 @@ class Login extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void logarUsuario() {
+    _authService
+        .logarUsuario(email: _email.text, senha: _senha.text)
+        .then((String? erro) {
+      if (erro != null) {
+        mostrarSnackBar(context: context, texto: erro);
+      } else {
+        mostrarSnackBar(
+            context: context,
+            texto: "Login efetuado com sucesso!",
+            isErro: false);
+      }
+    });
   }
 }

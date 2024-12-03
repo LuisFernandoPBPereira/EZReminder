@@ -1,4 +1,5 @@
 import 'package:ez_reminder/components/custom_button.dart';
+import 'package:ez_reminder/components/custom_snackbar.dart';
 import 'package:ez_reminder/global/ezreminder_colors.dart';
 import 'package:ez_reminder/screens/home.dart';
 import 'package:ez_reminder/screens/redefinicao_de_senha.dart';
@@ -111,7 +112,18 @@ class _CadastroState extends State<Cadastro> {
   }
 
   void cadastrarUsuario() {
-    authService.cadastrarUsuario(
-        nome: _nome.text, senha: _senha.text, email: _email.text);
+    authService
+        .cadastrarUsuario(
+            nome: _nome.text, senha: _senha.text, email: _email.text)
+        .then((String? erro) {
+      if (erro != null) {
+        mostrarSnackBar(context: context, texto: erro);
+      } else {
+        mostrarSnackBar(
+            context: context,
+            texto: "Cadastro efetuado com sucesso",
+            isErro: false);
+      }
+    });
   }
 }

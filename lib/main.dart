@@ -1,15 +1,6 @@
-import 'package:ez_reminder/screens/cadastro.dart';
-import 'package:ez_reminder/screens/configuracoes.dart';
-import 'package:ez_reminder/screens/criar_lembrete.dart';
-import 'package:ez_reminder/screens/criar_tipo_de_lembrete.dart';
-import 'package:ez_reminder/screens/email_redefinicao_de_senha.dart';
 import 'package:ez_reminder/screens/home.dart';
 import 'package:ez_reminder/screens/login.dart';
-import 'package:ez_reminder/screens/nova_senha.dart';
-import 'package:ez_reminder/screens/perfil.dart';
-import 'package:ez_reminder/screens/planos.dart';
-import 'package:ez_reminder/screens/redefinicao_de_senha.dart';
-import 'package:ez_reminder/screens/tipos_de_lembrete.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -27,19 +18,26 @@ class EzReminder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return MaterialApp(
-    //     debugShowCheckedModeBanner: false, title: "EZReminder", home: Login());
-    return MaterialApp(
+    return const MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "EZReminder",
-        home: Cadastro());
-    // return MaterialApp(
-    //     debugShowCheckedModeBanner: false,
-    //     title: "EZReminder",
-    //     home: CriarLembrete());
-    // return MaterialApp(
-    // debugShowCheckedModeBanner: false, title: "EZReminder", home: Planos());
-    // return MaterialApp(title: "EZReminder", home: EmailRedefinicaoDeSenha());
-    // return MaterialApp(title: "EZReminder", home: NovaSenha());
+        home: RouterToHome());
+  }
+}
+
+class RouterToHome extends StatelessWidget {
+  const RouterToHome({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.userChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return const Home();
+          } else {
+            return const Login();
+          }
+        });
   }
 }

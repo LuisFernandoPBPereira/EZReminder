@@ -6,6 +6,7 @@ import 'package:ez_reminder/screens/home.dart';
 import 'package:ez_reminder/screens/perfil.dart';
 import 'package:ez_reminder/screens/planos.dart';
 import 'package:ez_reminder/screens/tipos_de_lembrete.dart';
+import 'package:ez_reminder/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class Sidebar extends StatelessWidget {
@@ -19,7 +20,8 @@ class Sidebar extends StatelessWidget {
               child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Olá, Usuário!",
+              Text(
+                  "Olá, ${AuthService().getUsuario()?.displayName ?? AuthService().getUsuario()?.email}",
                   style: TextStyle(
                     color: Color(EzreminderColors.branco),
                   ))
@@ -134,6 +136,20 @@ class Sidebar extends StatelessWidget {
                 context,
                 MaterialPageRoute(builder: (context) => Configuracoes()),
               );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.logout, color: Color(EzreminderColors.branco)),
+            title: Text(
+              "Sair",
+              style: TextStyle(color: Color(EzreminderColors.branco)),
+            ),
+            onTap: () {
+              AuthService().deslogarUsuario();
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => Configuracoes()),
+              // );
             },
           ),
         ],
