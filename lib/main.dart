@@ -1,3 +1,4 @@
+import 'package:ez_reminder/screens/cadastro.dart';
 import 'package:ez_reminder/screens/configuracoes.dart';
 import 'package:ez_reminder/screens/criar_lembrete.dart';
 import 'package:ez_reminder/screens/criar_tipo_de_lembrete.dart';
@@ -10,8 +11,14 @@ import 'package:ez_reminder/screens/planos.dart';
 import 'package:ez_reminder/screens/redefinicao_de_senha.dart';
 import 'package:ez_reminder/screens/tipos_de_lembrete.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const EzReminder());
 }
 
@@ -23,7 +30,9 @@ class EzReminder extends StatelessWidget {
     // return MaterialApp(
     //     debugShowCheckedModeBanner: false, title: "EZReminder", home: Login());
     return MaterialApp(
-        debugShowCheckedModeBanner: false, title: "EZReminder", home: Home());
+        debugShowCheckedModeBanner: false,
+        title: "EZReminder",
+        home: Cadastro());
     // return MaterialApp(
     //     debugShowCheckedModeBanner: false,
     //     title: "EZReminder",
