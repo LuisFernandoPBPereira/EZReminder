@@ -2,14 +2,13 @@ import 'package:ez_reminder/global/ezreminder_colors.dart';
 import 'package:flutter/material.dart';
 
 class CardLembrete extends StatelessWidget {
-  final int id;
-  final int usuarioId;
+  final String id;
   final String titulo;
   final String descricao;
   final String tipoLembrete;
   final int cor;
   final String hora;
-  final DateTime data;
+  final String data;
   final String localizacao;
 
   final VoidCallback onPresssed;
@@ -17,7 +16,6 @@ class CardLembrete extends StatelessWidget {
   const CardLembrete(
       {super.key,
       required this.id,
-      required this.usuarioId,
       required this.titulo,
       required this.descricao,
       required this.tipoLembrete,

@@ -31,17 +31,17 @@ class _EditarLembreteState extends State<EditarLembrete> {
   DateTime? selectedDate;
   TimeOfDay horaSelecionada = TimeOfDay.now();
   String displayTipoLembrete = "";
-  int tipoLembreteId = 0;
+  String tipoLembrete = "0";
 
   _EditarLembreteState({required this.lembreteModel}) {
     selectedColor = Color(lembreteModel.cor);
-    dateText.value =
-        'Data selecionada: ${lembreteModel.data.day}/${lembreteModel.data.month}/${lembreteModel.data.year}';
-    timeText.value =
-        'Hora selecionada: ${lembreteModel.hora.hour}:${lembreteModel.hora.minute}';
-    tipoLembreteId = lembreteModel.tipoLembreteId;
-    displayTipoLembrete =
-        tipoLembreteRepository.getTipoLembreteById(tipoLembreteId).nome;
+    // dateText.value =
+    //     'Data selecionada: ${lembreteModel.data.day}/${lembreteModel.data.month}/${lembreteModel.data.year}';
+    // timeText.value =
+    //     'Hora selecionada: ${lembreteModel.hora.hour}:${lembreteModel.hora.minute}';
+    tipoLembrete = lembreteModel.tipoLembrete;
+    // displayTipoLembrete =
+    //     tipoLembreteRepository.getTipoLembreteById(tipoLembreteId).nome;
   }
 
   void pickColor(BuildContext context) {
@@ -77,22 +77,21 @@ class _EditarLembreteState extends State<EditarLembrete> {
   }
 
   void editarLembrete() {
-    try {
-      int cor = int.parse("0x${selectedColor.toHexString()}");
-      var lembrete = LembreteModel(
-          id: 1,
-          usuarioId: 1,
-          nome: nomeDoLembrete.text,
-          descricao: descricaoDoLembrete.text,
-          tipoLembreteId: tipoLembreteId,
-          cor: cor,
-          hora: horaSelecionada,
-          data: selectedDate!);
+    // try {
+    //   int cor = int.parse("0x${selectedColor.toHexString()}");
+    //   var lembrete = LembreteModel(
+    //       id: "1",
+    //       nome: nomeDoLembrete.text,
+    //       descricao: descricaoDoLembrete.text,
+    //       tipoLembrete: tipoLembrete,
+    //       cor: cor,
+    //       hora: "horaSelecionada",
+    //       data: selectedDate!);
 
-      lembreteRepository.editarLembrete(lembrete);
-    } catch (e) {
-      print(e);
-    }
+    //   lembreteRepository.editarLembrete(lembrete);
+    // } catch (e) {
+    //   print(e);
+    // }
   }
 
   @override
@@ -111,8 +110,8 @@ class _EditarLembreteState extends State<EditarLembrete> {
         timeText.value = 'Hora selecionada: ${pickedTime.format(context)}';
       } else {
         horaSelecionada = pickedTime!;
-        timeText.value =
-            'Hora selecionada: ${lembreteModel.hora.format(context)}';
+        // timeText.value =
+        //     'Hora selecionada: ${lembreteModel.hora.format(context)}';
       }
     }
 
@@ -164,7 +163,7 @@ class _EditarLembreteState extends State<EditarLembrete> {
         if (selectedItem != null) {
           setState(() {
             displayTipoLembrete = selectedItem['tipoLembrete'];
-            tipoLembreteId = selectedItem['id'];
+            tipoLembrete = selectedItem['tipoLembrete'];
           });
         }
       });

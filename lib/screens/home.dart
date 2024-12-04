@@ -7,7 +7,9 @@ import 'package:ez_reminder/repository/lembrete_repository.dart';
 import 'package:ez_reminder/repository/tipo_lembrete_repository.dart';
 import 'package:ez_reminder/screens/criar_lembrete.dart';
 import 'package:ez_reminder/screens/editar_lembrete.dart';
+import 'package:ez_reminder/services/lembrete_service.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -20,11 +22,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     List<LembreteModel> lembretes = LembreteRepository().getLembretes();
-
-    String recuperaTipoLembrete(int id) {
-      var tipoLembrete = TipoLembreteRepository().getTipoLembreteById(id);
-      return tipoLembrete.nome;
-    }
+    LembreteService lembreteService = LembreteService();
 
     return SafeArea(
       child: Scaffold(
@@ -58,29 +56,50 @@ class _HomeState extends State<Home> {
               const Titulo(
                 texto: "Meus Lembretes",
               ),
-              Column(
-                  children: lembretes.map((lembrete) {
-                return CardLembrete(
-                    id: lembrete.id,
-                    usuarioId: lembrete.usuarioId,
-                    titulo: lembrete.nome,
-                    descricao: lembrete.descricao,
-                    tipoLembrete: recuperaTipoLembrete(lembrete.tipoLembreteId),
-                    cor: lembrete.cor,
-                    hora: lembrete.hora.toString(),
-                    data: lembrete.data,
-                    localizacao: 'localizacao',
-                    onPresssed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => EditarLembrete(
-                            lembreteModel: lembrete,
-                          ),
-                        ),
+              StreamBuilder(
+                  stream: lembreteService.getLembretes(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: Text("Carregando..."),
                       );
-                    });
-              }).toList()),
+                    } else {
+                      if (snapshot.hasData &&
+                          snapshot.data != null &&
+                          snapshot.data!.docs.isNotEmpty) {
+                        List<LembreteModel> lembretes = [];
+
+                        for (var doc in snapshot.data!.docs) {
+                          lembretes.add(LembreteModel.fromMap(doc.data()));
+                        }
+
+                        return Column(
+                            children: lembretes.map((lembrete) {
+                          return CardLembrete(
+                              id: lembrete.id,
+                              titulo: lembrete.nome,
+                              descricao: lembrete.descricao,
+                              tipoLembrete: lembrete.tipoLembrete,
+                              cor: lembrete.cor,
+                              hora: lembrete.hora,
+                              data: lembrete.data,
+                              localizacao: lembrete.localizacao ?? "",
+                              onPresssed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EditarLembrete(
+                                      lembreteModel: lembrete,
+                                    ),
+                                  ),
+                                );
+                              });
+                        }).toList());
+                      } else {
+                        return const Text("Não há lembretes");
+                      }
+                    }
+                  })
             ],
           ),
         ),

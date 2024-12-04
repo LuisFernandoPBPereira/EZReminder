@@ -8,8 +8,11 @@ import 'package:ez_reminder/global/ezreminder_colors.dart';
 import 'package:ez_reminder/models/lembrete_model.dart';
 import 'package:ez_reminder/repository/lembrete_repository.dart';
 import 'package:ez_reminder/repository/tipo_lembrete_repository.dart';
+import 'package:ez_reminder/services/lembrete_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:uuid/uuid.dart';
+import 'package:intl/intl.dart';
 
 class CriarLembrete extends StatefulWidget {
   const CriarLembrete({super.key});
@@ -19,12 +22,13 @@ class CriarLembrete extends StatefulWidget {
 }
 
 class _CriarLembreteState extends State<CriarLembrete> {
+  LembreteService lembreteService = LembreteService();
   LembreteRepository lembreteRepository = LembreteRepository();
   TextEditingController nomeDoLembrete = TextEditingController();
   TextEditingController descricaoDoLembrete = TextEditingController();
   ValueNotifier<String> dateText = ValueNotifier('Nenhuma data selecionada');
   ValueNotifier<String> timeText = ValueNotifier('Nenhuma hora selecionada');
-  int tipoLembreteId = 0;
+  String tipoLembrete = "opa";
   Map<String, dynamic> selectedItem = <String, dynamic>{};
   DateTime? selectedDate;
   TimeOfDay horaSelecionada = TimeOfDay.now();
@@ -105,24 +109,23 @@ class _CriarLembreteState extends State<CriarLembrete> {
       super.dispose();
     }
 
-    void criarLembrete() {
-      try {
-        int cor = int.parse("0x${selectedColor.toHexString()}");
-        var lembrete = LembreteModel(
-            id: 1,
-            usuarioId: 1,
-            nome: nomeDoLembrete.text,
-            descricao: descricaoDoLembrete.text,
-            tipoLembreteId: tipoLembreteId,
-            cor: cor,
-            hora: horaSelecionada,
-            data: selectedDate!);
+    // void criarLembrete() {
+    //   try {
+    //     int cor = int.parse("0x${selectedColor.toHexString()}");
+    //     var lembrete = LembreteModel(
+    //         id: "1",
+    //         nome: nomeDoLembrete.text,
+    //         descricao: descricaoDoLembrete.text,
+    //         tipoLembrete: tipoLembrete,
+    //         cor: cor,
+    //         hora: "${horaSelecionada.hour}:${horaSelecionada.minute}",
+    //         data: selectedDate!);
 
-        lembreteRepository.criarLembrete(lembrete);
-      } catch (e) {
-        print(e);
-      }
-    }
+    //     lembreteRepository.criarLembrete(lembrete);
+    //   } catch (e) {
+    //     print(e);
+    //   }
+    // }
 
     void showSelectionBottomSheet(
         BuildContext context, List<Map<String, dynamic>> items) {
@@ -146,7 +149,7 @@ class _CriarLembreteState extends State<CriarLembrete> {
         if (selectedItem != null) {
           setState(() {
             displayTipoLembrete = selectedItem['tipoLembrete'];
-            tipoLembreteId = selectedItem['id'];
+            tipoLembrete = selectedItem['tipoLembrete'];
           });
         }
       });
@@ -289,11 +292,26 @@ class _CriarLembreteState extends State<CriarLembrete> {
                 Container(
                     margin: const EdgeInsets.only(top: 20),
                     child: CustomButton(
-                        label: "Salvar", onPressed: () => criarLembrete())),
+                        label: "Salvar", onPressed: () => adicionarLembrete())),
               ],
             ),
           ),
           drawer: Sidebar()),
     );
+  }
+
+  adicionarLembrete() {
+    LembreteModel lembrete = LembreteModel(
+        id: const Uuid().v1(),
+        nome: nomeDoLembrete.text,
+        descricao: descricaoDoLembrete.text,
+        tipoLembrete: tipoLembrete,
+        cor: selectedColor.value,
+        hora: "${horaSelecionada.hour}:${horaSelecionada.minute}",
+        data: DateFormat("yyyy-MM-dd").format(selectedDate!));
+
+    lembreteService.adicionarLembrete(lembrete).then((value) {
+      // fazer algo aqui depois de cadastrar
+    });
   }
 }
