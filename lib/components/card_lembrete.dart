@@ -46,11 +46,14 @@ class CardLembrete extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      titulo,
-                      style: TextStyle(
-                          color: Color(EzreminderColors.backgroundPreto),
-                          fontWeight: FontWeight.bold),
+                    Flexible(
+                      child: Text(
+                        titulo,
+                        style: TextStyle(
+                            color: Color(EzreminderColors.backgroundPreto),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16),
+                      ),
                     ),
                     Icon(
                       Icons.edit,
@@ -58,8 +61,17 @@ class CardLembrete extends StatelessWidget {
                     )
                   ],
                 ),
+                Flexible(
+                  child: Text(
+                    "Tipo do lembrete: $tipoLembrete",
+                    style: TextStyle(
+                      color: Color(EzreminderColors.backgroundPreto),
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
                 Text(
-                  "Tipo do lembrete: $tipoLembrete",
+                  "Data e hora: ${DateTime.parse(data).day}/${DateTime.parse(data).month}/${DateTime.parse(data).year} - $hora",
                   style: TextStyle(
                     color: Color(EzreminderColors.backgroundPreto),
                   ),
