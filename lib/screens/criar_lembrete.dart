@@ -1,4 +1,5 @@
 import 'package:ez_reminder/components/custom_button.dart';
+import 'package:ez_reminder/components/custom_notification.dart';
 import 'package:ez_reminder/components/custom_snackbar.dart';
 import 'package:ez_reminder/components/sidebar.dart';
 import 'package:ez_reminder/components/titulo.dart';
@@ -6,8 +7,10 @@ import 'package:ez_reminder/global/ezreminder_colors.dart';
 import 'package:ez_reminder/models/lembrete_model.dart';
 import 'package:ez_reminder/screens/home.dart';
 import 'package:ez_reminder/services/lembrete_service.dart';
+import 'package:ez_reminder/services/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
 
@@ -254,6 +257,17 @@ class _CriarLembreteState extends State<CriarLembrete> {
         data: DateFormat("yyyy-MM-dd").format(selectedDate!));
 
     lembreteService.adicionarLembrete(lembrete).then((value) {
+      Provider.of<NotificationService>(context, listen: false).showNotification(
+          CustomNotification(
+              id: 1,
+              title: lembrete.nome,
+              body: lembrete.descricao,
+              date: DateTime(
+                  selectedDate!.year,
+                  selectedDate!.month,
+                  selectedDate!.day,
+                  horaSelecionada.hour,
+                  horaSelecionada.minute)));
       mostrarSnackBar(
           context: context,
           texto: "Lembrete criado com sucesso!",

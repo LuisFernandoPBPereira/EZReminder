@@ -1,8 +1,10 @@
 import 'package:ez_reminder/screens/home.dart';
 import 'package:ez_reminder/screens/login.dart';
+import 'package:ez_reminder/services/notification_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -10,7 +12,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const EzReminder());
+  runApp(MultiProvider(providers: [
+    Provider<NotificationService>(create: (context) => NotificationService())
+  ], child: const EzReminder()));
 }
 
 class EzReminder extends StatelessWidget {
