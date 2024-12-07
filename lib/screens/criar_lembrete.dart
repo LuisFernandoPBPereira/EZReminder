@@ -1,14 +1,9 @@
-import 'dart:math';
-
 import 'package:ez_reminder/components/custom_button.dart';
 import 'package:ez_reminder/components/custom_snackbar.dart';
-import 'package:ez_reminder/components/dropdown.dart';
 import 'package:ez_reminder/components/sidebar.dart';
 import 'package:ez_reminder/components/titulo.dart';
 import 'package:ez_reminder/global/ezreminder_colors.dart';
 import 'package:ez_reminder/models/lembrete_model.dart';
-import 'package:ez_reminder/repository/lembrete_repository.dart';
-import 'package:ez_reminder/repository/tipo_lembrete_repository.dart';
 import 'package:ez_reminder/screens/home.dart';
 import 'package:ez_reminder/services/lembrete_service.dart';
 import 'package:flutter/material.dart';
@@ -25,17 +20,15 @@ class CriarLembrete extends StatefulWidget {
 
 class _CriarLembreteState extends State<CriarLembrete> {
   LembreteService lembreteService = LembreteService();
-  LembreteRepository lembreteRepository = LembreteRepository();
   TextEditingController nomeDoLembrete = TextEditingController();
   TextEditingController descricaoDoLembrete = TextEditingController();
+  TextEditingController tipoDoLembrete = TextEditingController();
   ValueNotifier<String> dateText = ValueNotifier('Nenhuma data selecionada');
   ValueNotifier<String> timeText = ValueNotifier('Nenhuma hora selecionada');
-  String tipoLembrete = "opa";
+  String tipoLembrete = "";
   Map<String, dynamic> selectedItem = <String, dynamic>{};
   DateTime? selectedDate;
   TimeOfDay horaSelecionada = TimeOfDay.now();
-
-  String displayTipoLembrete = "";
 
   Color selectedColor = Colors.blue;
 
@@ -72,9 +65,6 @@ class _CriarLembreteState extends State<CriarLembrete> {
 
   @override
   Widget build(BuildContext context) {
-    var tipoLembreteRepository = TipoLembreteRepository();
-    var tiposLembretes = tipoLembreteRepository.getTiposLembretes();
-
     Future<void> selectTime(BuildContext context) async {
       final TimeOfDay? pickedTime = await showTimePicker(
         context: context,
@@ -109,34 +99,6 @@ class _CriarLembreteState extends State<CriarLembrete> {
       timeText.dispose();
       dateText.dispose();
       super.dispose();
-    }
-
-    void showSelectionBottomSheet(
-        BuildContext context, List<Map<String, dynamic>> items) {
-      showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return ListView.builder(
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              Map<String, dynamic> item = items[index];
-              return ListTile(
-                title: Text(item['tipoLembrete']),
-                onTap: () {
-                  Navigator.pop(context, item);
-                },
-              );
-            },
-          );
-        },
-      ).then((selectedItem) {
-        if (selectedItem != null) {
-          setState(() {
-            displayTipoLembrete = selectedItem['tipoLembrete'];
-            tipoLembrete = selectedItem['tipoLembrete'];
-          });
-        }
-      });
     }
 
     return SafeArea(
@@ -203,25 +165,22 @@ class _CriarLembreteState extends State<CriarLembrete> {
                     ),
                   ),
                 ),
-                Text(
-                  "Tipo de Lembrete selecionado: $displayTipoLembrete",
-                  style: TextStyle(color: Color(EzreminderColors.branco)),
-                ),
                 Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                  child: CustomButton(
-                      label: "Escolha um Tipo de Lembrete",
-                      onPressed: () {
-                        List<Map<String, dynamic>> tiposLembretesMap =
-                            tiposLembretes.map((tipoLembrete) {
-                          return {
-                            "id": tipoLembrete.id,
-                            "tipoLembrete": tipoLembrete.nome
-                          };
-                        }).toList();
-                        showSelectionBottomSheet(context, tiposLembretesMap);
-                      }),
+                  margin: const EdgeInsets.only(bottom: 25),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 60.0, vertical: 0),
+                    child: TextField(
+                      controller: tipoDoLembrete,
+                      decoration: InputDecoration(
+                        labelStyle:
+                            TextStyle(color: Color(EzreminderColors.branco)),
+                        labelText: "Tipo do Lembrete",
+                        border: const UnderlineInputBorder(),
+                      ),
+                      style: const TextStyle(color: Color(0xFFFFFFFF)),
+                    ),
+                  ),
                 ),
                 const Text(
                   'Cor selecionada:',
@@ -289,7 +248,7 @@ class _CriarLembreteState extends State<CriarLembrete> {
         id: const Uuid().v1(),
         nome: nomeDoLembrete.text,
         descricao: descricaoDoLembrete.text,
-        tipoLembrete: tipoLembrete,
+        tipoLembrete: tipoDoLembrete.text,
         cor: selectedColor.value,
         hora: "${horaSelecionada.hour}:${horaSelecionada.minute}",
         data: DateFormat("yyyy-MM-dd").format(selectedDate!));

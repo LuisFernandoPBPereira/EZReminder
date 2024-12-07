@@ -1,12 +1,10 @@
 import 'package:ez_reminder/global/ezreminder_colors.dart';
 import 'package:ez_reminder/screens/configuracoes.dart';
 import 'package:ez_reminder/screens/criar_lembrete.dart';
-import 'package:ez_reminder/screens/criar_tipo_de_lembrete.dart';
 import 'package:ez_reminder/screens/home.dart';
 import 'package:ez_reminder/screens/perfil.dart';
 import 'package:ez_reminder/screens/planos.dart';
 import 'package:ez_reminder/screens/login.dart';
-import 'package:ez_reminder/screens/tipos_de_lembrete.dart';
 import 'package:ez_reminder/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
@@ -57,44 +55,6 @@ class Sidebar extends StatelessWidget {
                 context,
                 MaterialPageRoute(builder: (context) => const CriarLembrete()),
               );
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.note, color: Color(EzreminderColors.branco)),
-            title: Text(
-              "Tipos de Lembrete",
-              style: TextStyle(color: Color(EzreminderColors.branco)),
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => TiposDeLembrete()),
-              );
-            },
-          ),
-          ListTile(
-            leading:
-                Icon(Icons.note_add, color: Color(EzreminderColors.branco)),
-            title: Text(
-              "Criar Tipo do Lembrete",
-              style: TextStyle(color: Color(EzreminderColors.branco)),
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CriarTipoDeLembrete()),
-              );
-            },
-          ),
-          ListTile(
-            leading:
-                Icon(Icons.schedule, color: Color(EzreminderColors.branco)),
-            title: Text(
-              "Cronograma",
-              style: TextStyle(color: Color(EzreminderColors.branco)),
-            ),
-            onTap: () {
-              Navigator.pop(context);
             },
           ),
           ListTile(

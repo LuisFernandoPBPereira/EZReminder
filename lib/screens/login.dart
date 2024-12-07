@@ -1,10 +1,8 @@
-import 'dart:io';
-
 import 'package:ez_reminder/components/custom_button.dart';
 import 'package:ez_reminder/components/custom_snackbar.dart';
 import 'package:ez_reminder/global/ezreminder_colors.dart';
+import 'package:ez_reminder/screens/cadastro.dart';
 import 'package:ez_reminder/screens/home.dart';
-import 'package:ez_reminder/screens/redefinicao_de_senha.dart';
 import 'package:ez_reminder/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
@@ -82,21 +80,6 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => RedefinicaoDeSenha()));
-                    },
-                    child: const Padding(
-                      padding: EdgeInsets.only(left: 60.0),
-                      child: Text(
-                        "Esqueceu sua senha?",
-                        style: TextStyle(fontSize: 16, color: Colors.white),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -111,7 +94,10 @@ class _LoginState extends State<Login> {
               margin: const EdgeInsets.only(top: 20),
               child: GestureDetector(
                 onTap: () {
-                  print("Clicado");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Cadastro()),
+                  );
                 },
                 child: const Text(
                   "Crie sua conta",
