@@ -18,4 +18,8 @@ class LembreteService {
   Stream<QuerySnapshot<Map<String, dynamic>>> getLembretes() {
     return firebaseFirestore.collection(userId).snapshots();
   }
+
+  Future<void> removerLembrete({required String idLembrete}) {
+    return firebaseFirestore.collection(userId).doc(idLembrete).delete();
+  }
 }

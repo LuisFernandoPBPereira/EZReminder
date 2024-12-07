@@ -189,7 +189,43 @@ class _EditarLembreteState extends State<EditarLembrete> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Titulo(texto: "Editar Lembrete"),
+                Titulo(texto: lembreteModel.nome),
+                Container(
+                  margin: const EdgeInsets.only(bottom: 25),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      lembreteService
+                          .removerLembrete(idLembrete: lembreteModel.id)
+                          .then((value) {
+                        if (mounted) {
+                          mostrarSnackBar(
+                              context: context,
+                              texto: "Lembrete removido com sucesso!",
+                              isErro: false);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Home()),
+                          );
+                        }
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(EzreminderColors.backgroundPreto),
+                      textStyle: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
+                      elevation: 20,
+                      fixedSize: const Size(245, 49),
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8))),
+                    ),
+                    child: const Text(
+                      "Apagar Lembrete",
+                      style: TextStyle(color: Color(0xFFFF0000)),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
                 Container(
                   margin: const EdgeInsets.only(bottom: 25),
                   child: Padding(
