@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:ez_reminder/components/custom_button.dart';
+import 'package:ez_reminder/components/custom_snackbar.dart';
 import 'package:ez_reminder/components/dropdown.dart';
 import 'package:ez_reminder/components/sidebar.dart';
 import 'package:ez_reminder/components/titulo.dart';
@@ -8,6 +9,7 @@ import 'package:ez_reminder/global/ezreminder_colors.dart';
 import 'package:ez_reminder/models/lembrete_model.dart';
 import 'package:ez_reminder/repository/lembrete_repository.dart';
 import 'package:ez_reminder/repository/tipo_lembrete_repository.dart';
+import 'package:ez_reminder/screens/home.dart';
 import 'package:ez_reminder/services/lembrete_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -108,24 +110,6 @@ class _CriarLembreteState extends State<CriarLembrete> {
       dateText.dispose();
       super.dispose();
     }
-
-    // void criarLembrete() {
-    //   try {
-    //     int cor = int.parse("0x${selectedColor.toHexString()}");
-    //     var lembrete = LembreteModel(
-    //         id: "1",
-    //         nome: nomeDoLembrete.text,
-    //         descricao: descricaoDoLembrete.text,
-    //         tipoLembrete: tipoLembrete,
-    //         cor: cor,
-    //         hora: "${horaSelecionada.hour}:${horaSelecionada.minute}",
-    //         data: selectedDate!);
-
-    //     lembreteRepository.criarLembrete(lembrete);
-    //   } catch (e) {
-    //     print(e);
-    //   }
-    // }
 
     void showSelectionBottomSheet(
         BuildContext context, List<Map<String, dynamic>> items) {
@@ -311,7 +295,14 @@ class _CriarLembreteState extends State<CriarLembrete> {
         data: DateFormat("yyyy-MM-dd").format(selectedDate!));
 
     lembreteService.adicionarLembrete(lembrete).then((value) {
-      // fazer algo aqui depois de cadastrar
+      mostrarSnackBar(
+          context: context,
+          texto: "Lembrete criado com sucesso!",
+          isErro: false);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const Home()),
+      );
     });
   }
 }
