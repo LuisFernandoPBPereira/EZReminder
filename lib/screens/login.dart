@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:ez_reminder/components/custom_button.dart';
 import 'package:ez_reminder/components/custom_snackbar.dart';
 import 'package:ez_reminder/global/ezreminder_colors.dart';
+import 'package:ez_reminder/screens/home.dart';
 import 'package:ez_reminder/screens/redefinicao_de_senha.dart';
 import 'package:ez_reminder/services/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -100,7 +103,10 @@ class _LoginState extends State<Login> {
             Container(
                 margin: const EdgeInsets.only(top: 70),
                 child: CustomButton(
-                    label: "Entrar", onPressed: () => logarUsuario())),
+                    label: "Entrar",
+                    onPressed: () {
+                      logarUsuario();
+                    })),
             Container(
               margin: const EdgeInsets.only(top: 20),
               child: GestureDetector(
@@ -126,10 +132,16 @@ class _LoginState extends State<Login> {
       if (erro != null) {
         mostrarSnackBar(context: context, texto: erro);
       } else {
-        mostrarSnackBar(
-            context: context,
-            texto: "Login efetuado com sucesso!",
-            isErro: false);
+        if (mounted) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const Home()),
+          );
+          mostrarSnackBar(
+              context: context,
+              texto: "Login efetuado com sucesso!",
+              isErro: false);
+        }
       }
     });
   }

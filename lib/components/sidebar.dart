@@ -5,6 +5,7 @@ import 'package:ez_reminder/screens/criar_tipo_de_lembrete.dart';
 import 'package:ez_reminder/screens/home.dart';
 import 'package:ez_reminder/screens/perfil.dart';
 import 'package:ez_reminder/screens/planos.dart';
+import 'package:ez_reminder/screens/login.dart';
 import 'package:ez_reminder/screens/tipos_de_lembrete.dart';
 import 'package:ez_reminder/services/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -146,10 +147,10 @@ class Sidebar extends StatelessWidget {
             ),
             onTap: () {
               AuthService().deslogarUsuario();
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => Configuracoes()),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Login()),
+              );
             },
           ),
         ],

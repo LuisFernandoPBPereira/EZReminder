@@ -96,7 +96,12 @@ class _HomeState extends State<Home> {
                               });
                         }).toList());
                       } else {
-                        return const Text("Não há lembretes");
+                        return Center(
+                            child: Text(
+                          "Não há lembretes",
+                          style:
+                              TextStyle(color: Color(EzreminderColors.branco)),
+                        ));
                       }
                     }
                   })

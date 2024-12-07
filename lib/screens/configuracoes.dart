@@ -1,6 +1,7 @@
 import 'package:ez_reminder/components/app_layout.dart';
 import 'package:ez_reminder/components/titulo.dart';
 import 'package:ez_reminder/global/ezreminder_colors.dart';
+import 'package:ez_reminder/screens/login.dart';
 import 'package:ez_reminder/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,13 @@ class Configuracoes extends StatelessWidget {
         children: [
           const Titulo(texto: "Configurações"),
           ElevatedButton(
-            onPressed: () => AuthService().deslogarUsuario(),
+            onPressed: () {
+              AuthService().deslogarUsuario();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Login()),
+              );
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: Color(EzreminderColors.backgroundPreto),
               textStyle:
