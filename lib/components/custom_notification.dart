@@ -3,7 +3,7 @@ class CustomNotification {
   final String? title;
   final String? body;
   final String? payload;
-  final DateTime? date;
+  final DateTime date;
 
   CustomNotification(
       {required this.id,

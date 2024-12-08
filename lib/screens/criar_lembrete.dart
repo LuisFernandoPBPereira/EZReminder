@@ -257,17 +257,19 @@ class _CriarLembreteState extends State<CriarLembrete> {
         data: DateFormat("yyyy-MM-dd").format(selectedDate!));
 
     lembreteService.adicionarLembrete(lembrete).then((value) {
-      Provider.of<NotificationService>(context, listen: false).showNotification(
-          CustomNotification(
-              id: 1,
-              title: lembrete.nome,
-              body: lembrete.descricao,
-              date: DateTime(
-                  selectedDate!.year,
-                  selectedDate!.month,
-                  selectedDate!.day,
-                  horaSelecionada.hour,
-                  horaSelecionada.minute)));
+      setState(() {
+        Provider.of<NotificationService>(context, listen: false)
+            .showNotification(CustomNotification(
+                id: 1,
+                title: lembrete.nome,
+                body: lembrete.descricao,
+                date: DateTime(
+                    selectedDate!.year,
+                    selectedDate!.month,
+                    selectedDate!.day,
+                    horaSelecionada.hour,
+                    horaSelecionada.minute)));
+      });
       mostrarSnackBar(
           context: context,
           texto: "Lembrete criado com sucesso!",

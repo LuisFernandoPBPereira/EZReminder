@@ -1,9 +1,12 @@
 import 'package:ez_reminder/components/app_layout.dart';
+import 'package:ez_reminder/components/custom_notification.dart';
 import 'package:ez_reminder/components/titulo.dart';
 import 'package:ez_reminder/global/ezreminder_colors.dart';
 import 'package:ez_reminder/screens/login.dart';
 import 'package:ez_reminder/services/auth_service.dart';
+import 'package:ez_reminder/services/notification_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Configuracoes extends StatelessWidget {
   @override
@@ -36,7 +39,31 @@ class Configuracoes extends StatelessWidget {
               style: TextStyle(color: Color(0xFFFF0000)),
               textAlign: TextAlign.center,
             ),
-          )
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Provider.of<NotificationService>(context, listen: false)
+                  .showNotificationExample(CustomNotification(
+                      id: 1,
+                      title: "Exemplo de título",
+                      body: "Exemplo de corpo",
+                      date: DateTime.now()));
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Color(EzreminderColors.backgroundPreto),
+              textStyle:
+                  const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              elevation: 20,
+              fixedSize: const Size(245, 49),
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(8))),
+            ),
+            child: const Text(
+              "Exemplo de notificação",
+              style: TextStyle(color: Color(0xFFFF0000)),
+              textAlign: TextAlign.center,
+            ),
+          ),
         ],
       ),
     )));
