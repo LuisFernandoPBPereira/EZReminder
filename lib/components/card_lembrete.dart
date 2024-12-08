@@ -1,4 +1,5 @@
 import 'package:ez_reminder/global/ezreminder_colors.dart';
+import 'package:ez_reminder/utils/time_parser.dart';
 import 'package:flutter/material.dart';
 
 class CardLembrete extends StatelessWidget {
@@ -27,6 +28,9 @@ class CardLembrete extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var horaTimeOfDay = parseTimeOfDay(hora);
+    String horaCard = formatTimeOfDay(horaTimeOfDay);
+
     return Container(
       margin: const EdgeInsets.fromLTRB(40, 25, 40, 25),
       child: SizedBox(
@@ -71,7 +75,7 @@ class CardLembrete extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "Data e hora: ${DateTime.parse(data).day}/${DateTime.parse(data).month}/${DateTime.parse(data).year} - $hora",
+                  "Data e hora: ${DateTime.parse(data).day}/${DateTime.parse(data).month}/${DateTime.parse(data).year} - $horaCard",
                   style: TextStyle(
                     color: Color(EzreminderColors.backgroundPreto),
                   ),

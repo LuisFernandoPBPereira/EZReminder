@@ -3,13 +3,10 @@ import 'package:ez_reminder/components/sidebar.dart';
 import 'package:ez_reminder/components/titulo.dart';
 import 'package:ez_reminder/global/ezreminder_colors.dart';
 import 'package:ez_reminder/models/lembrete_model.dart';
-import 'package:ez_reminder/repository/lembrete_repository.dart';
-import 'package:ez_reminder/repository/tipo_lembrete_repository.dart';
 import 'package:ez_reminder/screens/criar_lembrete.dart';
 import 'package:ez_reminder/screens/editar_lembrete.dart';
 import 'package:ez_reminder/services/lembrete_service.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -21,7 +18,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    List<LembreteModel> lembretes = LembreteRepository().getLembretes();
     LembreteService lembreteService = LembreteService();
 
     return SafeArea(
@@ -60,8 +56,12 @@ class _HomeState extends State<Home> {
                   stream: lembreteService.getLembretes(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: Text("Carregando..."),
+                      return Center(
+                        child: Text(
+                          "Carregando...",
+                          style:
+                              TextStyle(color: Color(EzreminderColors.branco)),
+                        ),
                       );
                     } else {
                       if (snapshot.hasData &&

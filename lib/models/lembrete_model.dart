@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class LembreteModel {
   String id;
   String nome;

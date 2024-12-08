@@ -42,14 +42,6 @@ class Planos extends StatelessWidget {
                                 style: TextStyle(
                                   color: Color(EzreminderColors.branco),
                                 )),
-                            Text("Criar tipos de lembretes",
-                                style: TextStyle(
-                                  color: Color(EzreminderColors.branco),
-                                )),
-                            Text("Criar cronogramas",
-                                style: TextStyle(
-                                  color: Color(EzreminderColors.branco),
-                                )),
                           ]),
                     )),
               ),
@@ -80,14 +72,6 @@ class Planos extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("Criar lembretes",
-                              style: TextStyle(
-                                color: Color(EzreminderColors.branco),
-                              )),
-                          Text("Criar tipos de lembretes",
-                              style: TextStyle(
-                                color: Color(EzreminderColors.branco),
-                              )),
-                          Text("Criar cronogramas",
                               style: TextStyle(
                                 color: Color(EzreminderColors.branco),
                               )),

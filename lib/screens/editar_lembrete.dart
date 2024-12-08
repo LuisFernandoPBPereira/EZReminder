@@ -31,7 +31,7 @@ class _EditarLembreteState extends State<EditarLembrete> {
   TextEditingController descricaoDoLembrete = TextEditingController();
   TextEditingController tipoDoLembrete = TextEditingController();
   DateTime? selectedDate;
-  TimeOfDay? horaSelecionada = TimeOfDay.now();
+  TimeOfDay? horaSelecionada;
 
   _EditarLembreteState({required this.lembreteModel});
 
@@ -302,6 +302,8 @@ class _EditarLembreteState extends State<EditarLembrete> {
   }
 
   editarLembrete() {
+    if (!lembreteValido()) return;
+
     LembreteModel lembrete = LembreteModel(
         id: lembreteModel.id,
         nome: nomeDoLembrete.text,
@@ -323,5 +325,40 @@ class _EditarLembreteState extends State<EditarLembrete> {
         );
       }
     });
+  }
+
+  lembreteValido() {
+    if (nomeDoLembrete.text.isEmpty) {
+      mostrarSnackBar(
+          context: context, texto: "É preciso dar um nome para o lembrete");
+      return false;
+    }
+
+    if (descricaoDoLembrete.text.isEmpty) {
+      mostrarSnackBar(
+          context: context,
+          texto: "É preciso dar uma descrição para o lembrete");
+      return false;
+    }
+
+    if (tipoDoLembrete.text.isEmpty) {
+      mostrarSnackBar(
+          context: context, texto: "É preciso dar um tipo para o lembrete");
+      return false;
+    }
+
+    if (horaSelecionada == null) {
+      mostrarSnackBar(
+          context: context, texto: "É preciso dar um horário para o lembrete");
+      return false;
+    }
+
+    if (selectedDate == null) {
+      mostrarSnackBar(
+          context: context, texto: "É preciso dar uma data para o lembrete");
+      return false;
+    }
+
+    return true;
   }
 }

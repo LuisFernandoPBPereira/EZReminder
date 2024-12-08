@@ -119,7 +119,7 @@ class _LoginState extends State<Login> {
         .logarUsuario(email: _email.text, senha: _senha.text)
         .then((String? erro) {
       if (erro != null) {
-        mostrarSnackBar(context: context, texto: erro);
+        mostrarSnackBar(context: context, texto: "Email ou senha incorretos");
       } else {
         if (mounted) {
           Navigator.push(

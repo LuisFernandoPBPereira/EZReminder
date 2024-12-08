@@ -1,12 +1,13 @@
 import 'package:ez_reminder/components/app_layout.dart';
-import 'package:ez_reminder/components/custom_button.dart';
 import 'package:ez_reminder/components/titulo.dart';
 import 'package:ez_reminder/global/ezreminder_colors.dart';
+import 'package:ez_reminder/services/usuario_service.dart';
 import 'package:flutter/material.dart';
 
 class Perfil extends StatelessWidget {
-  TextEditingController nomeUsuario = TextEditingController();
-  TextEditingController dataNascimento = TextEditingController();
+  Perfil({super.key});
+
+  final usuario = UsuarioService().getUsuario();
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class Perfil extends StatelessWidget {
         content: SafeArea(
             child: Center(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Column(
             children: [
@@ -27,46 +28,31 @@ class Perfil extends StatelessWidget {
             ],
           ),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: const EdgeInsets.only(bottom: 25),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 60.0, vertical: 0),
-                  child: TextField(
-                    controller: nomeUsuario,
-                    decoration: InputDecoration(
-                      labelStyle:
-                          TextStyle(color: Color(EzreminderColors.branco)),
-                      labelText: "Nome",
-                      border: const UnderlineInputBorder(),
-                    ),
-                    style: const TextStyle(color: Color(0xFFFFFFFF)),
-                  ),
-                ),
-              ),
+                  margin: const EdgeInsets.only(top: 50),
+                  child: Text("Você está logado como:",
+                      style: TextStyle(
+                          color: Color(
+                            EzreminderColors.branco,
+                          ),
+                          fontSize: 20))),
               Container(
-                margin: const EdgeInsets.only(bottom: 25),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 60.0, vertical: 0),
-                  child: TextField(
-                    controller: dataNascimento,
-                    decoration: InputDecoration(
-                      labelStyle:
-                          TextStyle(color: Color(EzreminderColors.branco)),
-                      labelText: "Data de Nascimento",
-                      border: const UnderlineInputBorder(),
-                    ),
-                    style: const TextStyle(color: Color(0xFFFFFFFF)),
-                  ),
-                ),
-              ),
+                  margin: const EdgeInsets.only(top: 50),
+                  child: Text("Nome: ${usuario!.displayName!}",
+                      style: TextStyle(
+                          color: Color(
+                            EzreminderColors.branco,
+                          ),
+                          fontSize: 20))),
+              Text(
+                "Email: ${usuario!.email!}",
+                style: TextStyle(
+                    color: Color(EzreminderColors.branco), fontSize: 20),
+              )
             ],
-          ),
-          Container(
-              margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 50),
-              child: CustomButton(label: "Salvar", onPressed: () {}))
+          )
         ],
       ),
     )));

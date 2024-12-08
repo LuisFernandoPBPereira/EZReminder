@@ -31,7 +31,7 @@ class _CriarLembreteState extends State<CriarLembrete> {
   String tipoLembrete = "";
   Map<String, dynamic> selectedItem = <String, dynamic>{};
   DateTime? selectedDate;
-  TimeOfDay horaSelecionada = TimeOfDay.now();
+  TimeOfDay? horaSelecionada;
 
   Color selectedColor = Colors.blue;
 
@@ -247,13 +247,15 @@ class _CriarLembreteState extends State<CriarLembrete> {
   }
 
   adicionarLembrete() {
+    if (!lembreteValido()) return;
+
     LembreteModel lembrete = LembreteModel(
         id: const Uuid().v1(),
         nome: nomeDoLembrete.text,
         descricao: descricaoDoLembrete.text,
         tipoLembrete: tipoDoLembrete.text,
         cor: selectedColor.value,
-        hora: "${horaSelecionada.hour}:${horaSelecionada.minute}",
+        hora: "${horaSelecionada?.hour}:${horaSelecionada?.minute}",
         data: DateFormat("yyyy-MM-dd").format(selectedDate!));
 
     lembreteService.adicionarLembrete(lembrete).then((value) {
@@ -267,8 +269,8 @@ class _CriarLembreteState extends State<CriarLembrete> {
                     selectedDate!.year,
                     selectedDate!.month,
                     selectedDate!.day,
-                    horaSelecionada.hour,
-                    horaSelecionada.minute)));
+                    horaSelecionada!.hour,
+                    horaSelecionada!.minute)));
       });
       mostrarSnackBar(
           context: context,
@@ -279,5 +281,40 @@ class _CriarLembreteState extends State<CriarLembrete> {
         MaterialPageRoute(builder: (context) => const Home()),
       );
     });
+  }
+
+  lembreteValido() {
+    if (nomeDoLembrete.text.isEmpty) {
+      mostrarSnackBar(
+          context: context, texto: "É preciso dar um nome para o lembrete");
+      return false;
+    }
+
+    if (descricaoDoLembrete.text.isEmpty) {
+      mostrarSnackBar(
+          context: context,
+          texto: "É preciso dar uma descrição para o lembrete");
+      return false;
+    }
+
+    if (tipoDoLembrete.text.isEmpty) {
+      mostrarSnackBar(
+          context: context, texto: "É preciso dar um tipo para o lembrete");
+      return false;
+    }
+
+    if (horaSelecionada == null) {
+      mostrarSnackBar(
+          context: context, texto: "É preciso dar um horário para o lembrete");
+      return false;
+    }
+
+    if (selectedDate == null) {
+      mostrarSnackBar(
+          context: context, texto: "É preciso dar uma data para o lembrete");
+      return false;
+    }
+
+    return true;
   }
 }
