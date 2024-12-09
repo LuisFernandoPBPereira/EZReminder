@@ -3,6 +3,7 @@ import 'package:ez_reminder/components/custom_snackbar.dart';
 import 'package:ez_reminder/components/sidebar.dart';
 import 'package:ez_reminder/components/titulo.dart';
 import 'package:ez_reminder/global/ezreminder_colors.dart';
+import 'package:ez_reminder/global/plano_config.dart';
 import 'package:ez_reminder/models/lembrete_model.dart';
 import 'package:ez_reminder/screens/home.dart';
 import 'package:ez_reminder/services/lembrete_service.dart';
@@ -30,6 +31,7 @@ class _EditarLembreteState extends State<EditarLembrete> {
   TextEditingController nomeDoLembrete = TextEditingController();
   TextEditingController descricaoDoLembrete = TextEditingController();
   TextEditingController tipoDoLembrete = TextEditingController();
+  TextEditingController localizacao = TextEditingController();
   DateTime? selectedDate;
   TimeOfDay? horaSelecionada;
 
@@ -40,6 +42,7 @@ class _EditarLembreteState extends State<EditarLembrete> {
     nomeDoLembrete.text = lembreteModel.nome;
     descricaoDoLembrete.text = lembreteModel.descricao;
     tipoDoLembrete.text = lembreteModel.tipoLembrete;
+    localizacao.text = lembreteModel.localizacao ?? "";
     selectedColor = Color(lembreteModel.cor);
     selectedDate = DateTime.parse(lembreteModel.data);
     horaSelecionada = parseTimeOfDay(lembreteModel.hora);
@@ -236,6 +239,26 @@ class _EditarLembreteState extends State<EditarLembrete> {
                         border: const UnderlineInputBorder(),
                       ),
                       style: const TextStyle(color: Color(0xFFFFFFFF)),
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: PlanoConfig.planoConfig == Plano.premium,
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 25),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 60.0, vertical: 0),
+                      child: TextField(
+                        controller: localizacao,
+                        decoration: InputDecoration(
+                          labelStyle:
+                              TextStyle(color: Color(EzreminderColors.branco)),
+                          labelText: "Localização",
+                          border: const UnderlineInputBorder(),
+                        ),
+                        style: const TextStyle(color: Color(0xFFFFFFFF)),
+                      ),
                     ),
                   ),
                 ),

@@ -11,7 +11,7 @@ class LembreteModel {
   LembreteModel(
       {required this.id,
       required this.nome,
-      localizacao,
+      this.localizacao,
       required this.descricao,
       required this.tipoLembrete,
       required this.cor,

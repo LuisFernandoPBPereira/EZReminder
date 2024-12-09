@@ -3,6 +3,8 @@ import 'package:ez_reminder/components/custom_button.dart';
 import 'package:ez_reminder/components/custom_notification.dart';
 import 'package:ez_reminder/components/titulo.dart';
 import 'package:ez_reminder/global/ezreminder_colors.dart';
+import 'package:ez_reminder/global/plano_config.dart';
+import 'package:ez_reminder/main.dart';
 import 'package:ez_reminder/screens/login.dart';
 import 'package:ez_reminder/services/auth_service.dart';
 import 'package:ez_reminder/services/notification_service.dart';
@@ -18,17 +20,31 @@ class Configuracoes extends StatelessWidget {
       child: Column(
         children: [
           const Titulo(texto: "Configurações"),
+          PlanoConfig.planoConfig == Plano.gratuito
+              ? Text("Seu plano: Gratuito",
+                  style: TextStyle(
+                      color: Color(EzreminderColors.branco), fontSize: 20))
+              : Text("Seu plano: Premium",
+                  style: TextStyle(
+                      color: Color(EzreminderColors.branco), fontSize: 20)),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
             child: CustomButton(
                 label: "Exemplo de notificação",
                 onPressed: () {
-                  Provider.of<NotificationService>(context, listen: false)
-                      .showNotificationExample(CustomNotification(
-                          id: 1,
-                          title: "Ir para a faculdade",
-                          body: "Não posso pegar DP",
-                          date: DateTime.now()));
+                  PlanoConfig.planoConfig == Plano.gratuito
+                      ? Provider.of<NotificationService>(context, listen: false)
+                          .showNotificationExample(CustomNotification(
+                              id: 1,
+                              title: "Ir para a faculdade",
+                              body: "Não posso pegar DP",
+                              date: DateTime.now()))
+                      : Provider.of<NotificationService>(context, listen: false)
+                          .showNotificationExample(CustomNotification(
+                              id: 1,
+                              title: "Ir para a faculdade - UNASP",
+                              body: "Não posso pegar DP",
+                              date: DateTime.now()));
                 }),
           ),
           ElevatedButton(

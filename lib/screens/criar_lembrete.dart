@@ -4,6 +4,7 @@ import 'package:ez_reminder/components/custom_snackbar.dart';
 import 'package:ez_reminder/components/sidebar.dart';
 import 'package:ez_reminder/components/titulo.dart';
 import 'package:ez_reminder/global/ezreminder_colors.dart';
+import 'package:ez_reminder/global/plano_config.dart';
 import 'package:ez_reminder/models/lembrete_model.dart';
 import 'package:ez_reminder/screens/home.dart';
 import 'package:ez_reminder/services/lembrete_service.dart';
@@ -26,6 +27,7 @@ class _CriarLembreteState extends State<CriarLembrete> {
   TextEditingController nomeDoLembrete = TextEditingController();
   TextEditingController descricaoDoLembrete = TextEditingController();
   TextEditingController tipoDoLembrete = TextEditingController();
+  TextEditingController localizacao = TextEditingController();
   ValueNotifier<String> dateText = ValueNotifier('Nenhuma data selecionada');
   ValueNotifier<String> timeText = ValueNotifier('Nenhuma hora selecionada');
   String tipoLembrete = "";
@@ -185,6 +187,26 @@ class _CriarLembreteState extends State<CriarLembrete> {
                     ),
                   ),
                 ),
+                Visibility(
+                  visible: PlanoConfig.planoConfig == Plano.premium,
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 25),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 60.0, vertical: 0),
+                      child: TextField(
+                        controller: localizacao,
+                        decoration: InputDecoration(
+                          labelStyle:
+                              TextStyle(color: Color(EzreminderColors.branco)),
+                          labelText: "Localização",
+                          border: const UnderlineInputBorder(),
+                        ),
+                        style: const TextStyle(color: Color(0xFFFFFFFF)),
+                      ),
+                    ),
+                  ),
+                ),
                 const Text(
                   'Cor selecionada:',
                   style: TextStyle(fontSize: 18, color: Color(0xFFFFFFFF)),
@@ -249,6 +271,8 @@ class _CriarLembreteState extends State<CriarLembrete> {
   adicionarLembrete() {
     if (!lembreteValido()) return;
 
+    print(localizacao.text);
+
     LembreteModel lembrete = LembreteModel(
         id: const Uuid().v1(),
         nome: nomeDoLembrete.text,
@@ -256,7 +280,8 @@ class _CriarLembreteState extends State<CriarLembrete> {
         tipoLembrete: tipoDoLembrete.text,
         cor: selectedColor.value,
         hora: "${horaSelecionada?.hour}:${horaSelecionada?.minute}",
-        data: DateFormat("yyyy-MM-dd").format(selectedDate!));
+        data: DateFormat("yyyy-MM-dd").format(selectedDate!),
+        localizacao: localizacao.text);
 
     lembreteService.adicionarLembrete(lembrete).then((value) {
       setState(() {

@@ -1,7 +1,9 @@
 import 'package:ez_reminder/components/app_layout.dart';
 import 'package:ez_reminder/components/custom_button.dart';
+import 'package:ez_reminder/components/custom_snackbar.dart';
 import 'package:ez_reminder/components/titulo.dart';
 import 'package:ez_reminder/global/ezreminder_colors.dart';
+import 'package:ez_reminder/global/plano_config.dart';
 import 'package:flutter/material.dart';
 
 class Planos extends StatelessWidget {
@@ -31,7 +33,7 @@ class Planos extends StatelessWidget {
                         shape: const RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(16)))),
-                    onPressed: () {},
+                    onPressed: () => alterarPlanoParaGratuito(context),
                     child: SizedBox(
                       width: 300,
                       height: 120,
@@ -67,7 +69,7 @@ class Planos extends StatelessWidget {
                         shape: const RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(16)))),
-                    onPressed: () {},
+                    onPressed: () => {},
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -94,14 +96,35 @@ class Planos extends StatelessWidget {
                         ])),
               ),
             ),
-            CustomButton(label: "Obter plano mensal", onPressed: () {}),
+            CustomButton(
+                label: "Obter plano mensal",
+                onPressed: () => assinarPlanoPremium(context)),
             Container(
                 margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                child:
-                    CustomButton(label: "Obter plano anual", onPressed: () {})),
+                child: CustomButton(
+                    label: "Obter plano anual",
+                    onPressed: () => assinarPlanoPremium(context))),
           ],
         ),
       )),
     ));
+  }
+
+  void assinarPlanoPremium(BuildContext context) {
+    PlanoConfig.planoConfig = Plano.premium;
+
+    mostrarSnackBar(
+        context: context,
+        texto: "Plano Premium assinado com sucesso!",
+        isErro: false);
+  }
+
+  void alterarPlanoParaGratuito(BuildContext context) {
+    PlanoConfig.planoConfig = Plano.gratuito;
+
+    mostrarSnackBar(
+        context: context,
+        texto: "Agora você está no plano gratuito.",
+        isErro: false);
   }
 }
