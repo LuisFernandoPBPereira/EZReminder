@@ -1,11 +1,11 @@
-import 'package:ez_reminder/components/card_lembrete.dart';
-import 'package:ez_reminder/components/sidebar.dart';
-import 'package:ez_reminder/components/titulo.dart';
-import 'package:ez_reminder/global/ezreminder_colors.dart';
-import 'package:ez_reminder/models/lembrete_model.dart';
-import 'package:ez_reminder/screens/criar_lembrete.dart';
-import 'package:ez_reminder/screens/editar_lembrete.dart';
-import 'package:ez_reminder/services/lembrete_service.dart';
+import 'package:EZReminder/components/card_lembrete.dart';
+import 'package:EZReminder/components/sidebar.dart';
+import 'package:EZReminder/components/titulo.dart';
+import 'package:EZReminder/global/ezreminder_colors.dart';
+import 'package:EZReminder/models/lembrete_model.dart';
+import 'package:EZReminder/screens/criar_lembrete.dart';
+import 'package:EZReminder/screens/editar_lembrete.dart';
+import 'package:EZReminder/services/lembrete_service.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {

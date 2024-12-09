@@ -1,7 +1,7 @@
-import 'package:ez_reminder/components/app_layout.dart';
-import 'package:ez_reminder/components/titulo.dart';
-import 'package:ez_reminder/global/ezreminder_colors.dart';
-import 'package:ez_reminder/services/usuario_service.dart';
+import 'package:EZReminder/components/app_layout.dart';
+import 'package:EZReminder/components/titulo.dart';
+import 'package:EZReminder/global/ezreminder_colors.dart';
+import 'package:EZReminder/services/usuario_service.dart';
 import 'package:flutter/material.dart';
 
 class Perfil extends StatelessWidget {

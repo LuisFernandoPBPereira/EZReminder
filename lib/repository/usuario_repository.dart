@@ -1,4 +1,4 @@
-import 'package:ez_reminder/models/usuario_model.dart';
+import 'package:EZReminder/models/usuario_model.dart';
 
 class UsuarioRepository {
   List<UsuarioModel> getUsuarios() {

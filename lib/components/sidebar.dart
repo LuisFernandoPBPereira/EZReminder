@@ -1,11 +1,11 @@
-import 'package:ez_reminder/global/ezreminder_colors.dart';
-import 'package:ez_reminder/screens/configuracoes.dart';
-import 'package:ez_reminder/screens/criar_lembrete.dart';
-import 'package:ez_reminder/screens/home.dart';
-import 'package:ez_reminder/screens/perfil.dart';
-import 'package:ez_reminder/screens/planos.dart';
-import 'package:ez_reminder/screens/login.dart';
-import 'package:ez_reminder/services/auth_service.dart';
+import 'package:EZReminder/global/ezreminder_colors.dart';
+import 'package:EZReminder/screens/configuracoes.dart';
+import 'package:EZReminder/screens/criar_lembrete.dart';
+import 'package:EZReminder/screens/home.dart';
+import 'package:EZReminder/screens/perfil.dart';
+import 'package:EZReminder/screens/planos.dart';
+import 'package:EZReminder/screens/login.dart';
+import 'package:EZReminder/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class Sidebar extends StatelessWidget {

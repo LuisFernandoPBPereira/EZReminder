@@ -1,5 +1,5 @@
-import 'package:ez_reminder/components/card_lembrete.dart';
-import 'package:ez_reminder/models/lembrete_model.dart';
+import 'package:EZReminder/components/card_lembrete.dart';
+import 'package:EZReminder/models/lembrete_model.dart';
 import 'package:flutter/material.dart';
 
 class LembreteRepository {

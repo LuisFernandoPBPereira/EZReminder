@@ -1,9 +1,9 @@
-import 'package:ez_reminder/components/app_layout.dart';
-import 'package:ez_reminder/components/custom_button.dart';
-import 'package:ez_reminder/components/custom_snackbar.dart';
-import 'package:ez_reminder/components/titulo.dart';
-import 'package:ez_reminder/global/ezreminder_colors.dart';
-import 'package:ez_reminder/global/plano_config.dart';
+import 'package:EZReminder/components/app_layout.dart';
+import 'package:EZReminder/components/custom_button.dart';
+import 'package:EZReminder/components/custom_snackbar.dart';
+import 'package:EZReminder/components/titulo.dart';
+import 'package:EZReminder/global/ezreminder_colors.dart';
+import 'package:EZReminder/global/plano_config.dart';
 import 'package:flutter/material.dart';
 
 class Planos extends StatelessWidget {

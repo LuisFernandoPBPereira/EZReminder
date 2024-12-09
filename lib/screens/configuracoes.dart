@@ -1,13 +1,13 @@
-import 'package:ez_reminder/components/app_layout.dart';
-import 'package:ez_reminder/components/custom_button.dart';
-import 'package:ez_reminder/components/custom_notification.dart';
-import 'package:ez_reminder/components/titulo.dart';
-import 'package:ez_reminder/global/ezreminder_colors.dart';
-import 'package:ez_reminder/global/plano_config.dart';
-import 'package:ez_reminder/main.dart';
-import 'package:ez_reminder/screens/login.dart';
-import 'package:ez_reminder/services/auth_service.dart';
-import 'package:ez_reminder/services/notification_service.dart';
+import 'package:EZReminder/components/app_layout.dart';
+import 'package:EZReminder/components/custom_button.dart';
+import 'package:EZReminder/components/custom_notification.dart';
+import 'package:EZReminder/components/titulo.dart';
+import 'package:EZReminder/global/ezreminder_colors.dart';
+import 'package:EZReminder/global/plano_config.dart';
+import 'package:EZReminder/main.dart';
+import 'package:EZReminder/screens/login.dart';
+import 'package:EZReminder/services/auth_service.dart';
+import 'package:EZReminder/services/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

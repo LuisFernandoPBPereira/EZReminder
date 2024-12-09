@@ -1,4 +1,4 @@
-import 'package:ez_reminder/models/tipo_lembrete_model.dart';
+import 'package:EZReminder/models/tipo_lembrete_model.dart';
 
 class TipoLembreteRepository {
   List<TipoLembreteModel> getTiposLembretes() {

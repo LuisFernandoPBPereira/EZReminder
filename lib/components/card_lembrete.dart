@@ -1,5 +1,5 @@
-import 'package:ez_reminder/global/ezreminder_colors.dart';
-import 'package:ez_reminder/utils/time_parser.dart';
+import 'package:EZReminder/global/ezreminder_colors.dart';
+import 'package:EZReminder/utils/time_parser.dart';
 import 'package:flutter/material.dart';
 
 class CardLembrete extends StatelessWidget {

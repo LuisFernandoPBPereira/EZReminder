@@ -1,6 +1,6 @@
-import 'package:ez_reminder/screens/home.dart';
-import 'package:ez_reminder/screens/login.dart';
-import 'package:ez_reminder/services/notification_service.dart';
+import 'package:EZReminder/screens/home.dart';
+import 'package:EZReminder/screens/login.dart';
+import 'package:EZReminder/services/notification_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';

@@ -1,9 +1,9 @@
-import 'package:ez_reminder/components/custom_button.dart';
-import 'package:ez_reminder/components/custom_snackbar.dart';
-import 'package:ez_reminder/global/ezreminder_colors.dart';
-import 'package:ez_reminder/screens/cadastro.dart';
-import 'package:ez_reminder/screens/home.dart';
-import 'package:ez_reminder/services/auth_service.dart';
+import 'package:EZReminder/components/custom_button.dart';
+import 'package:EZReminder/components/custom_snackbar.dart';
+import 'package:EZReminder/global/ezreminder_colors.dart';
+import 'package:EZReminder/screens/cadastro.dart';
+import 'package:EZReminder/screens/home.dart';
+import 'package:EZReminder/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget {
