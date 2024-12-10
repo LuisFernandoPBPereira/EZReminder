@@ -1,22 +1,22 @@
 import 'package:EZReminder/components/custom_button.dart';
 import 'package:EZReminder/components/custom_snackbar.dart';
 import 'package:EZReminder/global/ezreminder_colors.dart';
-import 'package:EZReminder/screens/cadastro.dart';
 import 'package:EZReminder/screens/home.dart';
 import 'package:EZReminder/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+class Cadastro extends StatefulWidget {
+  const Cadastro({Key? key}) : super(key: key);
 
   @override
-  State<Login> createState() => _LoginState();
+  State<Cadastro> createState() => _CadastroState();
 }
 
-class _LoginState extends State<Login> {
-  AuthService _authService = AuthService();
+class _CadastroState extends State<Cadastro> {
   TextEditingController _email = TextEditingController();
+  TextEditingController _nome = TextEditingController();
   TextEditingController _senha = TextEditingController();
+  AuthService authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +36,42 @@ class _LoginState extends State<Login> {
                 margin:
                     const EdgeInsets.symmetric(horizontal: 90, vertical: 30),
                 child: const Text(
-                  "Faça o login com sua conta",
+                  "Crie sua conta",
                   style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFFFFFFFF)),
                   textAlign: TextAlign.center,
+                ),
+              ),
+              const Text(
+                "Sua senha deve conter pelo menos:\n",
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFFFFFFFF)),
+                textAlign: TextAlign.left,
+              ),
+              const Text(
+                "- 8 caracteres\n- 1 letra maiúscula\n- 1 letra minúscula\n- 1 número",
+                style: TextStyle(fontSize: 14, color: Color(0xFFFFFFFF)),
+                textAlign: TextAlign.left,
+              ),
+              Container(
+                margin: const EdgeInsets.only(bottom: 25),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 60.0, vertical: 0),
+                  child: TextField(
+                    controller: _nome,
+                    decoration: InputDecoration(
+                      labelStyle:
+                          TextStyle(color: Color(EzreminderColors.branco)),
+                      labelText: "Nome",
+                      border: const UnderlineInputBorder(),
+                    ),
+                    style: const TextStyle(color: Color(0xFFFFFFFF)),
+                  ),
                 ),
               ),
               Container(
@@ -88,25 +118,7 @@ class _LoginState extends State<Login> {
               Container(
                   margin: const EdgeInsets.only(top: 70),
                   child: CustomButton(
-                      label: "Entrar",
-                      onPressed: () {
-                        logarUsuario();
-                      })),
-              Container(
-                margin: const EdgeInsets.only(top: 20),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Cadastro()),
-                    );
-                  },
-                  child: const Text(
-                    "Crie sua conta",
-                    style: TextStyle(fontSize: 16, color: Colors.white),
-                  ),
-                ),
-              ),
+                      label: "Cadastrar", onPressed: () => cadastrarUsuario())),
             ],
           ),
         ),
@@ -114,24 +126,50 @@ class _LoginState extends State<Login> {
     );
   }
 
-  void logarUsuario() {
-    _authService
-        .logarUsuario(email: _email.text, senha: _senha.text)
+  void cadastrarUsuario() {
+    if (!contaValida()) return;
+
+    authService
+        .cadastrarUsuario(
+            nome: _nome.text, senha: _senha.text, email: _email.text)
         .then((String? erro) {
       if (erro != null) {
-        mostrarSnackBar(context: context, texto: "Email ou senha incorretos");
+        mostrarSnackBar(context: context, texto: erro);
       } else {
         if (mounted) {
+          mostrarSnackBar(
+              context: context,
+              texto: "Cadastro efetuado com sucesso",
+              isErro: false);
+
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const Home()),
           );
-          mostrarSnackBar(
-              context: context,
-              texto: "Login efetuado com sucesso!",
-              isErro: false);
         }
       }
     });
+  }
+
+  bool contaValida() {
+    var senhaValida = RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}$');
+    var emailValido =
+        RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+
+    if (_nome.text.isEmpty) {
+      mostrarSnackBar(context: context, texto: "Insira um nome");
+      return false;
+    }
+    if (!emailValido.hasMatch(_email.text)) {
+      mostrarSnackBar(context: context, texto: "Email inválido");
+      return false;
+    }
+    if (!senhaValida.hasMatch(_senha.text)) {
+      mostrarSnackBar(
+          context: context, texto: "Senha inválida: verifique os requisitos.");
+      return false;
+    }
+
+    return true;
   }
 }

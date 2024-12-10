@@ -1,15 +1,19 @@
-import 'dart:math';
-
-import 'package:ez_reminder/components/custom_button.dart';
-import 'package:ez_reminder/components/dropdown.dart';
-import 'package:ez_reminder/components/sidebar.dart';
-import 'package:ez_reminder/components/titulo.dart';
-import 'package:ez_reminder/global/ezreminder_colors.dart';
-import 'package:ez_reminder/models/lembrete_model.dart';
-import 'package:ez_reminder/repository/lembrete_repository.dart';
-import 'package:ez_reminder/repository/tipo_lembrete_repository.dart';
+import 'package:EZReminder/components/custom_button.dart';
+import 'package:EZReminder/components/custom_notification.dart';
+import 'package:EZReminder/components/custom_snackbar.dart';
+import 'package:EZReminder/components/sidebar.dart';
+import 'package:EZReminder/components/titulo.dart';
+import 'package:EZReminder/global/ezreminder_colors.dart';
+import 'package:EZReminder/global/plano_config.dart';
+import 'package:EZReminder/models/lembrete_model.dart';
+import 'package:EZReminder/screens/home.dart';
+import 'package:EZReminder/services/lembrete_service.dart';
+import 'package:EZReminder/services/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
+import 'package:intl/intl.dart';
 
 class CriarLembrete extends StatefulWidget {
   const CriarLembrete({super.key});
@@ -19,17 +23,17 @@ class CriarLembrete extends StatefulWidget {
 }
 
 class _CriarLembreteState extends State<CriarLembrete> {
-  LembreteRepository lembreteRepository = LembreteRepository();
+  LembreteService lembreteService = LembreteService();
   TextEditingController nomeDoLembrete = TextEditingController();
   TextEditingController descricaoDoLembrete = TextEditingController();
+  TextEditingController tipoDoLembrete = TextEditingController();
+  TextEditingController localizacao = TextEditingController();
   ValueNotifier<String> dateText = ValueNotifier('Nenhuma data selecionada');
   ValueNotifier<String> timeText = ValueNotifier('Nenhuma hora selecionada');
-  int tipoLembreteId = 0;
+  String tipoLembrete = "";
   Map<String, dynamic> selectedItem = <String, dynamic>{};
   DateTime? selectedDate;
-  TimeOfDay horaSelecionada = TimeOfDay.now();
-
-  String displayTipoLembrete = "";
+  TimeOfDay? horaSelecionada;
 
   Color selectedColor = Colors.blue;
 
@@ -66,9 +70,6 @@ class _CriarLembreteState extends State<CriarLembrete> {
 
   @override
   Widget build(BuildContext context) {
-    var tipoLembreteRepository = TipoLembreteRepository();
-    var tiposLembretes = tipoLembreteRepository.getTiposLembretes();
-
     Future<void> selectTime(BuildContext context) async {
       final TimeOfDay? pickedTime = await showTimePicker(
         context: context,
@@ -103,53 +104,6 @@ class _CriarLembreteState extends State<CriarLembrete> {
       timeText.dispose();
       dateText.dispose();
       super.dispose();
-    }
-
-    void criarLembrete() {
-      try {
-        int cor = int.parse("0x${selectedColor.toHexString()}");
-        var lembrete = LembreteModel(
-            id: 1,
-            usuarioId: 1,
-            nome: nomeDoLembrete.text,
-            descricao: descricaoDoLembrete.text,
-            tipoLembreteId: tipoLembreteId,
-            cor: cor,
-            hora: horaSelecionada,
-            data: selectedDate!);
-
-        lembreteRepository.criarLembrete(lembrete);
-      } catch (e) {
-        print(e);
-      }
-    }
-
-    void showSelectionBottomSheet(
-        BuildContext context, List<Map<String, dynamic>> items) {
-      showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return ListView.builder(
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              Map<String, dynamic> item = items[index];
-              return ListTile(
-                title: Text(item['tipoLembrete']),
-                onTap: () {
-                  Navigator.pop(context, item);
-                },
-              );
-            },
-          );
-        },
-      ).then((selectedItem) {
-        if (selectedItem != null) {
-          setState(() {
-            displayTipoLembrete = selectedItem['tipoLembrete'];
-            tipoLembreteId = selectedItem['id'];
-          });
-        }
-      });
     }
 
     return SafeArea(
@@ -216,25 +170,42 @@ class _CriarLembreteState extends State<CriarLembrete> {
                     ),
                   ),
                 ),
-                Text(
-                  "Tipo de Lembrete selecionado: $displayTipoLembrete",
-                  style: TextStyle(color: Color(EzreminderColors.branco)),
-                ),
                 Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                  child: CustomButton(
-                      label: "Escolha um Tipo de Lembrete",
-                      onPressed: () {
-                        List<Map<String, dynamic>> tiposLembretesMap =
-                            tiposLembretes.map((tipoLembrete) {
-                          return {
-                            "id": tipoLembrete.id,
-                            "tipoLembrete": tipoLembrete.nome
-                          };
-                        }).toList();
-                        showSelectionBottomSheet(context, tiposLembretesMap);
-                      }),
+                  margin: const EdgeInsets.only(bottom: 25),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 60.0, vertical: 0),
+                    child: TextField(
+                      controller: tipoDoLembrete,
+                      decoration: InputDecoration(
+                        labelStyle:
+                            TextStyle(color: Color(EzreminderColors.branco)),
+                        labelText: "Tipo do Lembrete",
+                        border: const UnderlineInputBorder(),
+                      ),
+                      style: const TextStyle(color: Color(0xFFFFFFFF)),
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: PlanoConfig.planoConfig == Plano.premium,
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 25),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 60.0, vertical: 0),
+                      child: TextField(
+                        controller: localizacao,
+                        decoration: InputDecoration(
+                          labelStyle:
+                              TextStyle(color: Color(EzreminderColors.branco)),
+                          labelText: "Localização",
+                          border: const UnderlineInputBorder(),
+                        ),
+                        style: const TextStyle(color: Color(0xFFFFFFFF)),
+                      ),
+                    ),
+                  ),
                 ),
                 const Text(
                   'Cor selecionada:',
@@ -289,11 +260,86 @@ class _CriarLembreteState extends State<CriarLembrete> {
                 Container(
                     margin: const EdgeInsets.only(top: 20),
                     child: CustomButton(
-                        label: "Salvar", onPressed: () => criarLembrete())),
+                        label: "Salvar", onPressed: () => adicionarLembrete())),
               ],
             ),
           ),
           drawer: Sidebar()),
     );
+  }
+
+  adicionarLembrete() {
+    if (!lembreteValido()) return;
+
+    print(localizacao.text);
+
+    LembreteModel lembrete = LembreteModel(
+        id: const Uuid().v1(),
+        nome: nomeDoLembrete.text,
+        descricao: descricaoDoLembrete.text,
+        tipoLembrete: tipoDoLembrete.text,
+        cor: selectedColor.value,
+        hora: "${horaSelecionada?.hour}:${horaSelecionada?.minute}",
+        data: DateFormat("yyyy-MM-dd").format(selectedDate!),
+        localizacao: localizacao.text);
+
+    lembreteService.adicionarLembrete(lembrete).then((value) {
+      setState(() {
+        Provider.of<NotificationService>(context, listen: false)
+            .showNotification(CustomNotification(
+                id: 1,
+                title: lembrete.nome,
+                body: lembrete.descricao,
+                date: DateTime(
+                    selectedDate!.year,
+                    selectedDate!.month,
+                    selectedDate!.day,
+                    horaSelecionada!.hour,
+                    horaSelecionada!.minute)));
+      });
+      mostrarSnackBar(
+          context: context,
+          texto: "Lembrete criado com sucesso!",
+          isErro: false);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const Home()),
+      );
+    });
+  }
+
+  lembreteValido() {
+    if (nomeDoLembrete.text.isEmpty) {
+      mostrarSnackBar(
+          context: context, texto: "É preciso dar um nome para o lembrete");
+      return false;
+    }
+
+    if (descricaoDoLembrete.text.isEmpty) {
+      mostrarSnackBar(
+          context: context,
+          texto: "É preciso dar uma descrição para o lembrete");
+      return false;
+    }
+
+    if (tipoDoLembrete.text.isEmpty) {
+      mostrarSnackBar(
+          context: context, texto: "É preciso dar um tipo para o lembrete");
+      return false;
+    }
+
+    if (horaSelecionada == null) {
+      mostrarSnackBar(
+          context: context, texto: "É preciso dar um horário para o lembrete");
+      return false;
+    }
+
+    if (selectedDate == null) {
+      mostrarSnackBar(
+          context: context, texto: "É preciso dar uma data para o lembrete");
+      return false;
+    }
+
+    return true;
   }
 }

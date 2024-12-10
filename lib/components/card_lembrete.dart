@@ -1,15 +1,15 @@
-import 'package:ez_reminder/global/ezreminder_colors.dart';
+import 'package:EZReminder/global/ezreminder_colors.dart';
+import 'package:EZReminder/utils/time_parser.dart';
 import 'package:flutter/material.dart';
 
 class CardLembrete extends StatelessWidget {
-  final int id;
-  final int usuarioId;
+  final String id;
   final String titulo;
   final String descricao;
   final String tipoLembrete;
   final int cor;
   final String hora;
-  final DateTime data;
+  final String data;
   final String localizacao;
 
   final VoidCallback onPresssed;
@@ -17,7 +17,6 @@ class CardLembrete extends StatelessWidget {
   const CardLembrete(
       {super.key,
       required this.id,
-      required this.usuarioId,
       required this.titulo,
       required this.descricao,
       required this.tipoLembrete,
@@ -29,6 +28,9 @@ class CardLembrete extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var horaTimeOfDay = parseTimeOfDay(hora);
+    String horaCard = formatTimeOfDay(horaTimeOfDay);
+
     return Container(
       margin: const EdgeInsets.fromLTRB(40, 25, 40, 25),
       child: SizedBox(
@@ -48,11 +50,14 @@ class CardLembrete extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      titulo,
-                      style: TextStyle(
-                          color: Color(EzreminderColors.backgroundPreto),
-                          fontWeight: FontWeight.bold),
+                    Flexible(
+                      child: Text(
+                        titulo,
+                        style: TextStyle(
+                            color: Color(EzreminderColors.backgroundPreto),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16),
+                      ),
                     ),
                     Icon(
                       Icons.edit,
@@ -60,8 +65,17 @@ class CardLembrete extends StatelessWidget {
                     )
                   ],
                 ),
+                Flexible(
+                  child: Text(
+                    "Tipo do lembrete: $tipoLembrete",
+                    style: TextStyle(
+                      color: Color(EzreminderColors.backgroundPreto),
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
                 Text(
-                  "Tipo do lembrete: $tipoLembrete",
+                  "Data e hora: ${DateTime.parse(data).day}/${DateTime.parse(data).month}/${DateTime.parse(data).year} - $horaCard",
                   style: TextStyle(
                     color: Color(EzreminderColors.backgroundPreto),
                   ),

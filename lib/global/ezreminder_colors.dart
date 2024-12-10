@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class EzreminderColors {
   static int backgroundPreto = 0xFF242423;
   static int primaryVerde = 0xFFADE566;

@@ -1,7 +1,9 @@
-import 'package:ez_reminder/components/app_layout.dart';
-import 'package:ez_reminder/components/custom_button.dart';
-import 'package:ez_reminder/components/titulo.dart';
-import 'package:ez_reminder/global/ezreminder_colors.dart';
+import 'package:EZReminder/components/app_layout.dart';
+import 'package:EZReminder/components/custom_button.dart';
+import 'package:EZReminder/components/custom_snackbar.dart';
+import 'package:EZReminder/components/titulo.dart';
+import 'package:EZReminder/global/ezreminder_colors.dart';
+import 'package:EZReminder/global/plano_config.dart';
 import 'package:flutter/material.dart';
 
 class Planos extends StatelessWidget {
@@ -31,36 +33,42 @@ class Planos extends StatelessWidget {
                         shape: const RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(16)))),
-                    onPressed: () {},
+                    onPressed: () => alterarPlanoParaGratuito(context),
                     child: SizedBox(
                       width: 300,
                       height: 120,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Criar lembretes",
-                                style: TextStyle(
-                                  color: Color(EzreminderColors.branco),
-                                )),
-                            Text("Criar tipos de lembretes",
-                                style: TextStyle(
-                                  color: Color(EzreminderColors.branco),
-                                )),
-                            Text("Criar cronogramas",
-                                style: TextStyle(
-                                  color: Color(EzreminderColors.branco),
-                                )),
-                          ]),
+                      child: Center(
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Criar lembretes",
+                                  style: TextStyle(
+                                    color: Color(EzreminderColors.branco),
+                                  )),
+                              Text("Personalizar cor do lembrete",
+                                  style: TextStyle(
+                                    color: Color(EzreminderColors.branco),
+                                  )),
+                              Text("Definir data e hora",
+                                  style: TextStyle(
+                                    color: Color(EzreminderColors.branco),
+                                  )),
+                            ]),
+                      ),
                     )),
               ),
             ),
             Text(
               "EZReminder Premium",
-              style: TextStyle(color: Color(EzreminderColors.branco)),
+              style: TextStyle(
+                  color: Color(EzreminderColors.branco),
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold),
             ),
             Text(
-              "2,50/mês ou 27,50/ano",
-              style: TextStyle(color: Color(EzreminderColors.branco)),
+              "0,99/mês ou 9,99/ano",
+              style: TextStyle(
+                  color: Color(EzreminderColors.branco), fontSize: 20),
             ),
             Container(
               margin: const EdgeInsets.fromLTRB(40, 25, 40, 25),
@@ -75,7 +83,7 @@ class Planos extends StatelessWidget {
                         shape: const RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(16)))),
-                    onPressed: () {},
+                    onPressed: () => {},
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -83,11 +91,11 @@ class Planos extends StatelessWidget {
                               style: TextStyle(
                                 color: Color(EzreminderColors.branco),
                               )),
-                          Text("Criar tipos de lembretes",
+                          Text("Personalizar cor do lembrete",
                               style: TextStyle(
                                 color: Color(EzreminderColors.branco),
                               )),
-                          Text("Criar cronogramas",
+                          Text("Definir data e hora",
                               style: TextStyle(
                                 color: Color(EzreminderColors.branco),
                               )),
@@ -95,11 +103,7 @@ class Planos extends StatelessWidget {
                               style: TextStyle(
                                 color: Color(EzreminderColors.branco),
                               )),
-                          Text("Relatórios de Produtividade",
-                              style: TextStyle(
-                                color: Color(EzreminderColors.branco),
-                              )),
-                          Text("Lembretes na tela inicial do dispositivo",
+                          Text("Estatísticas de Lembretes",
                               style: TextStyle(
                                 color: Color(EzreminderColors.branco),
                               )),
@@ -110,14 +114,35 @@ class Planos extends StatelessWidget {
                         ])),
               ),
             ),
-            CustomButton(label: "Obter plano mensal", onPressed: () {}),
+            CustomButton(
+                label: "Obter plano mensal",
+                onPressed: () => assinarPlanoPremium(context)),
             Container(
                 margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                child:
-                    CustomButton(label: "Obter plano anual", onPressed: () {})),
+                child: CustomButton(
+                    label: "Obter plano anual",
+                    onPressed: () => assinarPlanoPremium(context))),
           ],
         ),
       )),
     ));
+  }
+
+  void assinarPlanoPremium(BuildContext context) {
+    PlanoConfig.planoConfig = Plano.premium;
+
+    mostrarSnackBar(
+        context: context,
+        texto: "Plano Premium assinado com sucesso!",
+        isErro: false);
+  }
+
+  void alterarPlanoParaGratuito(BuildContext context) {
+    PlanoConfig.planoConfig = Plano.gratuito;
+
+    mostrarSnackBar(
+        context: context,
+        texto: "Agora você está no plano gratuito.",
+        isErro: false);
   }
 }

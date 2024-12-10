@@ -1,24 +1,43 @@
-import 'package:flutter/material.dart';
-
 class LembreteModel {
-  int id;
-  int usuarioId;
+  String id;
   String nome;
   String descricao;
   String? localizacao;
-  int tipoLembreteId;
+  String tipoLembrete;
   int cor;
-  TimeOfDay hora;
-  DateTime data;
+  String hora;
+  String data;
 
   LembreteModel(
       {required this.id,
-      required this.usuarioId,
       required this.nome,
-      localizacao,
+      this.localizacao,
       required this.descricao,
-      required this.tipoLembreteId,
+      required this.tipoLembrete,
       required this.cor,
       required this.hora,
       required this.data});
+
+  LembreteModel.fromMap(Map<String, dynamic> map)
+      : id = map["id"],
+        nome = map["nome"],
+        localizacao = map["localizacao"],
+        descricao = map["descricao"],
+        tipoLembrete = map["tipoLembrete"],
+        cor = map["cor"],
+        hora = map["hora"],
+        data = map["data"];
+
+  Map<String, dynamic> toMap() {
+    return {
+      "id": id,
+      "nome": nome,
+      "localizacao": localizacao,
+      "descricao": descricao,
+      "tipoLembrete": tipoLembrete,
+      "cor": cor,
+      "hora": hora,
+      "data": data
+    };
+  }
 }

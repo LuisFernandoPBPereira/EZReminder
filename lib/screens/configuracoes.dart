@@ -1,7 +1,14 @@
-import 'package:ez_reminder/components/app_layout.dart';
-import 'package:ez_reminder/components/titulo.dart';
-import 'package:ez_reminder/global/ezreminder_colors.dart';
+import 'package:EZReminder/components/app_layout.dart';
+import 'package:EZReminder/components/custom_button.dart';
+import 'package:EZReminder/components/custom_notification.dart';
+import 'package:EZReminder/components/titulo.dart';
+import 'package:EZReminder/global/ezreminder_colors.dart';
+import 'package:EZReminder/global/plano_config.dart';
+import 'package:EZReminder/screens/login.dart';
+import 'package:EZReminder/services/auth_service.dart';
+import 'package:EZReminder/services/notification_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Configuracoes extends StatelessWidget {
   @override
@@ -12,8 +19,41 @@ class Configuracoes extends StatelessWidget {
       child: Column(
         children: [
           const Titulo(texto: "Configurações"),
+          PlanoConfig.planoConfig == Plano.gratuito
+              ? Text("Seu plano: Gratuito",
+                  style: TextStyle(
+                      color: Color(EzreminderColors.branco), fontSize: 20))
+              : Text("Seu plano: Premium",
+                  style: TextStyle(
+                      color: Color(EzreminderColors.branco), fontSize: 20)),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+            child: CustomButton(
+                label: "Exemplo de notificação",
+                onPressed: () {
+                  PlanoConfig.planoConfig == Plano.gratuito
+                      ? Provider.of<NotificationService>(context, listen: false)
+                          .showNotificationExample(CustomNotification(
+                              id: 1,
+                              title: "Ir para a faculdade",
+                              body: "Não posso pegar DP",
+                              date: DateTime.now()))
+                      : Provider.of<NotificationService>(context, listen: false)
+                          .showNotificationExample(CustomNotification(
+                              id: 1,
+                              title: "Ir para a faculdade - UNASP",
+                              body: "Não posso pegar DP",
+                              date: DateTime.now()));
+                }),
+          ),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              AuthService().deslogarUsuario();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Login()),
+              );
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: Color(EzreminderColors.backgroundPreto),
               textStyle:
@@ -28,7 +68,7 @@ class Configuracoes extends StatelessWidget {
               style: TextStyle(color: Color(0xFFFF0000)),
               textAlign: TextAlign.center,
             ),
-          )
+          ),
         ],
       ),
     )));

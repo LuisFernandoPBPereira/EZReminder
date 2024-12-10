@@ -1,11 +1,13 @@
-import 'package:ez_reminder/global/ezreminder_colors.dart';
-import 'package:ez_reminder/screens/configuracoes.dart';
-import 'package:ez_reminder/screens/criar_lembrete.dart';
-import 'package:ez_reminder/screens/criar_tipo_de_lembrete.dart';
-import 'package:ez_reminder/screens/home.dart';
-import 'package:ez_reminder/screens/perfil.dart';
-import 'package:ez_reminder/screens/planos.dart';
-import 'package:ez_reminder/screens/tipos_de_lembrete.dart';
+import 'package:EZReminder/global/ezreminder_colors.dart';
+import 'package:EZReminder/global/plano_config.dart';
+import 'package:EZReminder/screens/configuracoes.dart';
+import 'package:EZReminder/screens/criar_lembrete.dart';
+import 'package:EZReminder/screens/estatistica.dart';
+import 'package:EZReminder/screens/home.dart';
+import 'package:EZReminder/screens/perfil.dart';
+import 'package:EZReminder/screens/planos.dart';
+import 'package:EZReminder/screens/login.dart';
+import 'package:EZReminder/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class Sidebar extends StatelessWidget {
@@ -19,7 +21,8 @@ class Sidebar extends StatelessWidget {
               child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Olá, Usuário!",
+              Text(
+                  "Olá, ${AuthService().getUsuario()?.displayName ?? AuthService().getUsuario()?.email}",
                   style: TextStyle(
                     color: Color(EzreminderColors.branco),
                   ))
@@ -56,43 +59,22 @@ class Sidebar extends StatelessWidget {
               );
             },
           ),
-          ListTile(
-            leading: Icon(Icons.note, color: Color(EzreminderColors.branco)),
-            title: Text(
-              "Tipos de Lembrete",
-              style: TextStyle(color: Color(EzreminderColors.branco)),
+          Visibility(
+            visible: PlanoConfig.planoConfig == Plano.premium,
+            child: ListTile(
+              leading: Icon(Icons.data_exploration_rounded,
+                  color: Color(EzreminderColors.branco)),
+              title: Text(
+                "Estatísticas",
+                style: TextStyle(color: Color(EzreminderColors.branco)),
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Estatistica()),
+                );
+              },
             ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => TiposDeLembrete()),
-              );
-            },
-          ),
-          ListTile(
-            leading:
-                Icon(Icons.note_add, color: Color(EzreminderColors.branco)),
-            title: Text(
-              "Criar Tipo do Lembrete",
-              style: TextStyle(color: Color(EzreminderColors.branco)),
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CriarTipoDeLembrete()),
-              );
-            },
-          ),
-          ListTile(
-            leading:
-                Icon(Icons.schedule, color: Color(EzreminderColors.branco)),
-            title: Text(
-              "Cronograma",
-              style: TextStyle(color: Color(EzreminderColors.branco)),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-            },
           ),
           ListTile(
             leading: Icon(Icons.account_circle,
@@ -133,6 +115,20 @@ class Sidebar extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => Configuracoes()),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.logout, color: Color(EzreminderColors.branco)),
+            title: Text(
+              "Sair",
+              style: TextStyle(color: Color(EzreminderColors.branco)),
+            ),
+            onTap: () {
+              AuthService().deslogarUsuario();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Login()),
               );
             },
           ),
