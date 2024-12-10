@@ -1,5 +1,6 @@
 import 'package:EZReminder/components/sidebar.dart';
 import 'package:EZReminder/global/ezreminder_colors.dart';
+import 'package:EZReminder/screens/home.dart';
 import 'package:flutter/material.dart';
 
 class AppLayout extends StatelessWidget {
@@ -32,10 +33,18 @@ class AppLayout extends StatelessWidget {
               },
             );
           }),
-          actions: const [
-            Icon(
-              Icons.notifications,
-              size: 50,
+          actions: [
+            IconButton(
+              icon: const Icon(
+                Icons.home,
+                size: 50,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Home()),
+                );
+              },
             )
           ],
           automaticallyImplyLeading: false,

@@ -1,3 +1,4 @@
+import 'package:EZReminder/components/app_layout.dart';
 import 'package:EZReminder/components/card_lembrete.dart';
 import 'package:EZReminder/components/sidebar.dart';
 import 'package:EZReminder/components/titulo.dart';
@@ -20,106 +21,67 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     LembreteService lembreteService = LembreteService();
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Color(EzreminderColors.backgroundPreto),
-        appBar: AppBar(
-          toolbarHeight: 75,
-          backgroundColor: Color(EzreminderColors.primaryVerde),
-          leading: Builder(builder: (context) {
-            return IconButton(
-              icon: const Icon(
-                Icons.menu,
-                size: 50,
-              ),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-            );
-          }),
-          actions: const [
-            Icon(
-              Icons.notifications,
-              size: 50,
-            )
-          ],
-          automaticallyImplyLeading: false,
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const Titulo(
-                texto: "Meus Lembretes",
-              ),
-              StreamBuilder(
-                  stream: lembreteService.getLembretes(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                        child: Text(
-                          "Carregando...",
-                          style:
-                              TextStyle(color: Color(EzreminderColors.branco)),
-                        ),
-                      );
-                    } else {
-                      if (snapshot.hasData &&
-                          snapshot.data != null &&
-                          snapshot.data!.docs.isNotEmpty) {
-                        List<LembreteModel> lembretes = [];
+    return AppLayout(
+      content: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Titulo(
+              texto: "Meus Lembretes",
+            ),
+            StreamBuilder(
+                stream: lembreteService.getLembretes(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: Text(
+                        "Carregando...",
+                        style: TextStyle(color: Color(EzreminderColors.branco)),
+                      ),
+                    );
+                  } else {
+                    if (snapshot.hasData &&
+                        snapshot.data != null &&
+                        snapshot.data!.docs.isNotEmpty) {
+                      List<LembreteModel> lembretes = [];
 
-                        for (var doc in snapshot.data!.docs) {
-                          lembretes.add(LembreteModel.fromMap(doc.data()));
-                        }
-
-                        return Column(
-                            children: lembretes.map((lembrete) {
-                          return CardLembrete(
-                              id: lembrete.id,
-                              titulo: lembrete.nome,
-                              descricao: lembrete.descricao,
-                              tipoLembrete: lembrete.tipoLembrete,
-                              cor: lembrete.cor,
-                              hora: lembrete.hora,
-                              data: lembrete.data,
-                              localizacao: lembrete.localizacao ?? "",
-                              onPresssed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => EditarLembrete(
-                                      lembreteModel: lembrete,
-                                    ),
-                                  ),
-                                );
-                              });
-                        }).toList());
-                      } else {
-                        return Center(
-                            child: Text(
-                          "Não há lembretes",
-                          style:
-                              TextStyle(color: Color(EzreminderColors.branco)),
-                        ));
+                      for (var doc in snapshot.data!.docs) {
+                        lembretes.add(LembreteModel.fromMap(doc.data()));
                       }
+
+                      return Column(
+                          children: lembretes.map((lembrete) {
+                        return CardLembrete(
+                            id: lembrete.id,
+                            titulo: lembrete.nome,
+                            descricao: lembrete.descricao,
+                            tipoLembrete: lembrete.tipoLembrete,
+                            cor: lembrete.cor,
+                            hora: lembrete.hora,
+                            data: lembrete.data,
+                            localizacao: lembrete.localizacao ?? "",
+                            onPresssed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => EditarLembrete(
+                                    lembreteModel: lembrete,
+                                  ),
+                                ),
+                              );
+                            });
+                      }).toList());
+                    } else {
+                      return Center(
+                          child: Text(
+                        "Não há lembretes",
+                        style: TextStyle(color: Color(EzreminderColors.branco)),
+                      ));
                     }
-                  })
-            ],
-          ),
+                  }
+                })
+          ],
         ),
-        drawer: Sidebar(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const CriarLembrete()),
-            );
-          },
-          child: Icon(Icons.add, size: 40),
-          backgroundColor: Color(EzreminderColors.primaryVerde),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       ),
     );
   }
