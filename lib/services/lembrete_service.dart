@@ -2,7 +2,6 @@ import 'package:EZReminder/models/estatistica_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:EZReminder/models/lembrete_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 class LembreteService {
@@ -60,16 +59,6 @@ class LembreteService {
         .collection("estatistica-$userId")
         .doc(estatisticaUser.id)
         .set(estatisticaUser.toMap());
-  }
-
-  Future<int> countLembretes() async {
-    try {
-      QuerySnapshot snapshot = await firebaseFirestore.collection(userId).get();
-      return snapshot.docs.length;
-    } catch (e) {
-      print("Erro ao contar documentos: $e");
-      return 0;
-    }
   }
 
   Future<List<LembreteModel>> getListLembretes() async {

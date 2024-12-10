@@ -4,7 +4,6 @@ import 'package:EZReminder/components/custom_notification.dart';
 import 'package:EZReminder/components/titulo.dart';
 import 'package:EZReminder/global/ezreminder_colors.dart';
 import 'package:EZReminder/global/plano_config.dart';
-import 'package:EZReminder/main.dart';
 import 'package:EZReminder/screens/login.dart';
 import 'package:EZReminder/services/auth_service.dart';
 import 'package:EZReminder/services/notification_service.dart';

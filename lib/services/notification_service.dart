@@ -20,7 +20,7 @@ class NotificationService {
 
   Future<void> _setupTimezone() async {
     tz.initializeTimeZones();
-    final String? timeZoneName = await FlutterTimezone.getLocalTimezone();
+    // final String? timeZoneName = await FlutterTimezone.getLocalTimezone();
     tz.setLocalLocation(tz.getLocation("America/Sao_Paulo"));
   }
 

@@ -37,24 +37,38 @@ class Planos extends StatelessWidget {
                     child: SizedBox(
                       width: 300,
                       height: 120,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Criar lembretes",
-                                style: TextStyle(
-                                  color: Color(EzreminderColors.branco),
-                                )),
-                          ]),
+                      child: Center(
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Criar lembretes",
+                                  style: TextStyle(
+                                    color: Color(EzreminderColors.branco),
+                                  )),
+                              Text("Personalizar cor do lembrete",
+                                  style: TextStyle(
+                                    color: Color(EzreminderColors.branco),
+                                  )),
+                              Text("Definir data e hora",
+                                  style: TextStyle(
+                                    color: Color(EzreminderColors.branco),
+                                  )),
+                            ]),
+                      ),
                     )),
               ),
             ),
             Text(
               "EZReminder Premium",
-              style: TextStyle(color: Color(EzreminderColors.branco)),
+              style: TextStyle(
+                  color: Color(EzreminderColors.branco),
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold),
             ),
             Text(
-              "2,50/mês ou 27,50/ano",
-              style: TextStyle(color: Color(EzreminderColors.branco)),
+              "0,99/mês ou 9,99/ano",
+              style: TextStyle(
+                  color: Color(EzreminderColors.branco), fontSize: 20),
             ),
             Container(
               margin: const EdgeInsets.fromLTRB(40, 25, 40, 25),
@@ -77,15 +91,19 @@ class Planos extends StatelessWidget {
                               style: TextStyle(
                                 color: Color(EzreminderColors.branco),
                               )),
+                          Text("Personalizar cor do lembrete",
+                              style: TextStyle(
+                                color: Color(EzreminderColors.branco),
+                              )),
+                          Text("Definir data e hora",
+                              style: TextStyle(
+                                color: Color(EzreminderColors.branco),
+                              )),
                           Text("Lembretes por Localização",
                               style: TextStyle(
                                 color: Color(EzreminderColors.branco),
                               )),
-                          Text("Relatórios de Produtividade",
-                              style: TextStyle(
-                                color: Color(EzreminderColors.branco),
-                              )),
-                          Text("Lembretes na tela inicial do dispositivo",
+                          Text("Estatísticas de Lembretes",
                               style: TextStyle(
                                 color: Color(EzreminderColors.branco),
                               )),

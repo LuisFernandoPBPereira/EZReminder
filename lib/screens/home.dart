@@ -1,6 +1,5 @@
 import 'package:EZReminder/components/app_layout.dart';
 import 'package:EZReminder/components/card_lembrete.dart';
-import 'package:EZReminder/components/sidebar.dart';
 import 'package:EZReminder/components/titulo.dart';
 import 'package:EZReminder/global/ezreminder_colors.dart';
 import 'package:EZReminder/models/lembrete_model.dart';
