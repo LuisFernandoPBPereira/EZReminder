@@ -22,6 +22,16 @@ class _HomeState extends State<Home> {
     LembreteService lembreteService = LembreteService();
 
     return AppLayout(
+      customFloatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const CriarLembrete()),
+          );
+        },
+        child: Icon(Icons.add, size: 40),
+        backgroundColor: Color(EzreminderColors.primaryVerde),
+      ),
       content: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

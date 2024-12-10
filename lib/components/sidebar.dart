@@ -1,6 +1,8 @@
 import 'package:EZReminder/global/ezreminder_colors.dart';
+import 'package:EZReminder/global/plano_config.dart';
 import 'package:EZReminder/screens/configuracoes.dart';
 import 'package:EZReminder/screens/criar_lembrete.dart';
+import 'package:EZReminder/screens/estatistica.dart';
 import 'package:EZReminder/screens/home.dart';
 import 'package:EZReminder/screens/perfil.dart';
 import 'package:EZReminder/screens/planos.dart';
@@ -56,6 +58,23 @@ class Sidebar extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => const CriarLembrete()),
               );
             },
+          ),
+          Visibility(
+            visible: PlanoConfig.planoConfig == Plano.premium,
+            child: ListTile(
+              leading: Icon(Icons.data_exploration_rounded,
+                  color: Color(EzreminderColors.branco)),
+              title: Text(
+                "Estatísticas",
+                style: TextStyle(color: Color(EzreminderColors.branco)),
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Estatistica()),
+                );
+              },
+            ),
           ),
           ListTile(
             leading: Icon(Icons.account_circle,

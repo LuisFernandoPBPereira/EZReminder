@@ -1,3 +1,4 @@
+import 'package:EZReminder/services/lembrete_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
@@ -10,6 +11,10 @@ class AuthService {
       UserCredential userCredential = await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: senha);
       await userCredential.user!.updateDisplayName(nome);
+
+      LembreteService lembreteService = LembreteService();
+      lembreteService.adicionarEstatistica();
+
       return null;
     } on FirebaseAuthException catch (exception) {
       if (exception.code == "email-already-in-use") {
