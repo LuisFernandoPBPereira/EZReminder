@@ -340,6 +340,15 @@ class _CriarLembreteState extends State<CriarLembrete> {
       return false;
     }
 
+    DateTime dataComparada = DateTime(selectedDate!.year, selectedDate!.month,
+        selectedDate!.day, horaSelecionada!.hour, horaSelecionada!.minute);
+
+    if (dataComparada.isBefore(DateTime.now())) {
+      mostrarSnackBar(
+          context: context, texto: "A data e hora não podem ser no passado");
+      return false;
+    }
+
     return true;
   }
 }
