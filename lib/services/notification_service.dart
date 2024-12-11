@@ -2,7 +2,6 @@ import 'package:EZReminder/components/custom_notification.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
-import 'package:flutter_timezone/flutter_timezone.dart';
 
 class NotificationService {
   late FlutterLocalNotificationsPlugin localNotificationsPlugin;
@@ -20,7 +19,6 @@ class NotificationService {
 
   Future<void> _setupTimezone() async {
     tz.initializeTimeZones();
-    // final String? timeZoneName = await FlutterTimezone.getLocalTimezone();
     tz.setLocalLocation(tz.getLocation("America/Sao_Paulo"));
   }
 
@@ -38,7 +36,6 @@ class NotificationService {
         priority: Priority.max,
         enableVibration: true);
 
-    // if (notification.date.isAfter(DateTime.now())) {
     localNotificationsPlugin.zonedSchedule(
         notification.id,
         notification.title,
@@ -48,7 +45,6 @@ class NotificationService {
         androidScheduleMode: AndroidScheduleMode.exact,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
-    // }
   }
 
   showNotificationExample(CustomNotification notification) {

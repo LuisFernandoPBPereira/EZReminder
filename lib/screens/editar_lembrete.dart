@@ -1,6 +1,6 @@
+import 'package:EZReminder/components/app_layout.dart';
 import 'package:EZReminder/components/custom_button.dart';
 import 'package:EZReminder/components/custom_snackbar.dart';
-import 'package:EZReminder/components/sidebar.dart';
 import 'package:EZReminder/components/titulo.dart';
 import 'package:EZReminder/global/ezreminder_colors.dart';
 import 'package:EZReminder/global/plano_config.dart';
@@ -94,6 +94,7 @@ class _EditarLembreteState extends State<EditarLembrete> {
       );
       if (pickedTime != null) {
         timeText.value = 'Hora selecionada: ${pickedTime.format(context)}';
+        horaSelecionada = pickedTime;
       } else {
         horaSelecionada = pickedTime!;
       }
@@ -113,6 +114,7 @@ class _EditarLembreteState extends State<EditarLembrete> {
         setState(() {
           dateText.value =
               'Data selecionada: ${picked.day}/${picked.month}/${picked.year}';
+          selectedDate = picked;
         });
       }
     }
@@ -125,203 +127,166 @@ class _EditarLembreteState extends State<EditarLembrete> {
       super.dispose();
     }
 
-    return SafeArea(
-      child: Scaffold(
-          backgroundColor: Color(EzreminderColors.backgroundPreto),
-          appBar: AppBar(
-            toolbarHeight: 75,
-            backgroundColor: Color(EzreminderColors.primaryVerde),
-            leading: Builder(builder: (context) {
-              return IconButton(
-                icon: const Icon(
-                  Icons.menu,
-                  size: 50,
-                ),
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-              );
-            }),
-            actions: const [
-              Icon(
-                Icons.notifications,
-                size: 50,
-              )
-            ],
-            automaticallyImplyLeading: false,
-          ),
-          body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Titulo(texto: lembreteModel.nome),
-                Container(
-                  margin: const EdgeInsets.only(bottom: 25),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      lembreteService
-                          .removerLembrete(idLembrete: lembreteModel.id)
-                          .then((value) {
-                        if (mounted) {
-                          mostrarSnackBar(
-                              context: context,
-                              texto: "Lembrete removido com sucesso!",
-                              isErro: false);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Home()),
-                          );
-                        }
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(EzreminderColors.backgroundPreto),
-                      textStyle: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
-                      elevation: 20,
-                      fixedSize: const Size(245, 49),
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8))),
-                    ),
-                    child: const Text(
-                      "Apagar Lembrete",
-                      style: TextStyle(color: Color(0xFFFF0000)),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(bottom: 25),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 60.0, vertical: 0),
-                    child: TextField(
-                      controller: nomeDoLembrete,
-                      decoration: InputDecoration(
-                        labelStyle:
-                            TextStyle(color: Color(EzreminderColors.branco)),
-                        labelText: "Nome do Lembrete",
-                        border: const UnderlineInputBorder(),
-                      ),
-                      style: const TextStyle(color: Color(0xFFFFFFFF)),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(bottom: 25),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 60.0, vertical: 0),
-                    child: TextField(
-                      controller: descricaoDoLembrete,
-                      decoration: InputDecoration(
-                        labelStyle:
-                            TextStyle(color: Color(EzreminderColors.branco)),
-                        labelText: "Descrição do Lembrete",
-                        border: const UnderlineInputBorder(),
-                      ),
-                      style: const TextStyle(color: Color(0xFFFFFFFF)),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(bottom: 25),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 60.0, vertical: 0),
-                    child: TextField(
-                      controller: tipoDoLembrete,
-                      decoration: InputDecoration(
-                        labelStyle:
-                            TextStyle(color: Color(EzreminderColors.branco)),
-                        labelText: "Tipo do Lembrete",
-                        border: const UnderlineInputBorder(),
-                      ),
-                      style: const TextStyle(color: Color(0xFFFFFFFF)),
-                    ),
-                  ),
-                ),
-                Visibility(
-                  visible: PlanoConfig.planoConfig == Plano.premium,
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 25),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 60.0, vertical: 0),
-                      child: TextField(
-                        controller: localizacao,
-                        decoration: InputDecoration(
-                          labelStyle:
-                              TextStyle(color: Color(EzreminderColors.branco)),
-                          labelText: "Localização",
-                          border: const UnderlineInputBorder(),
-                        ),
-                        style: const TextStyle(color: Color(0xFFFFFFFF)),
-                      ),
-                    ),
-                  ),
-                ),
-                Text(
-                  'Cor selecionada:',
-                  style: TextStyle(
-                      fontSize: 18, color: Color(EzreminderColors.branco)),
-                ),
-                const SizedBox(height: 10),
-                Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                      color: selectedColor,
-                      borderRadius: BorderRadius.circular(20)),
-                ),
-                Container(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                    child: CustomButton(
-                        label: "Escolher Cor",
-                        onPressed: () => pickColor(context))),
-                ValueListenableBuilder<String>(
-                  valueListenable: timeText,
-                  builder: (context, value, child) {
-                    return Text(
-                      value,
-                      style: const TextStyle(
-                          fontSize: 18, color: Color(0xFFFFFFFF)),
+    return AppLayout(
+        content: SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Titulo(texto: lembreteModel.nome),
+          Container(
+            margin: const EdgeInsets.only(bottom: 25),
+            child: ElevatedButton(
+              onPressed: () {
+                lembreteService
+                    .removerLembrete(idLembrete: lembreteModel.id)
+                    .then((value) {
+                  if (mounted) {
+                    mostrarSnackBar(
+                        context: context,
+                        texto: "Lembrete removido com sucesso!",
+                        isErro: false);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Home()),
                     );
-                  },
-                ),
-                Container(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                    child: CustomButton(
-                        label: "Escolher Horário",
-                        onPressed: () => selectTime(context))),
-                ValueListenableBuilder<String>(
-                  valueListenable: dateText,
-                  builder: (context, value, child) {
-                    return Text(
-                      value,
-                      style: const TextStyle(
-                          fontSize: 18, color: Color(0xFFFFFFFF)),
-                    );
-                  },
-                ),
-                Container(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                    child: CustomButton(
-                        label: "Escolher Data",
-                        onPressed: () => selectDate(context))),
-                Container(
-                    margin: const EdgeInsets.only(top: 20),
-                    child: CustomButton(
-                        label: "Salvar", onPressed: () => editarLembrete())),
-              ],
+                  }
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(EzreminderColors.backgroundPreto),
+                textStyle:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                elevation: 20,
+                fixedSize: const Size(245, 49),
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8))),
+              ),
+              child: const Text(
+                "Apagar Lembrete",
+                style: TextStyle(color: Color(0xFFFF0000)),
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
-          drawer: Sidebar()),
-    );
+          Container(
+            margin: const EdgeInsets.only(bottom: 25),
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 60.0, vertical: 0),
+              child: TextField(
+                controller: nomeDoLembrete,
+                decoration: InputDecoration(
+                  labelStyle: TextStyle(color: Color(EzreminderColors.branco)),
+                  labelText: "Nome do Lembrete",
+                  border: const UnderlineInputBorder(),
+                ),
+                style: const TextStyle(color: Color(0xFFFFFFFF)),
+              ),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(bottom: 25),
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 60.0, vertical: 0),
+              child: TextField(
+                controller: descricaoDoLembrete,
+                decoration: InputDecoration(
+                  labelStyle: TextStyle(color: Color(EzreminderColors.branco)),
+                  labelText: "Descrição do Lembrete",
+                  border: const UnderlineInputBorder(),
+                ),
+                style: const TextStyle(color: Color(0xFFFFFFFF)),
+              ),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(bottom: 25),
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 60.0, vertical: 0),
+              child: TextField(
+                controller: tipoDoLembrete,
+                decoration: InputDecoration(
+                  labelStyle: TextStyle(color: Color(EzreminderColors.branco)),
+                  labelText: "Tipo do Lembrete",
+                  border: const UnderlineInputBorder(),
+                ),
+                style: const TextStyle(color: Color(0xFFFFFFFF)),
+              ),
+            ),
+          ),
+          Visibility(
+            visible: PlanoConfig.planoConfig == Plano.premium,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 25),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 60.0, vertical: 0),
+                child: TextField(
+                  controller: localizacao,
+                  decoration: InputDecoration(
+                    labelStyle:
+                        TextStyle(color: Color(EzreminderColors.branco)),
+                    labelText: "Localização",
+                    border: const UnderlineInputBorder(),
+                  ),
+                  style: const TextStyle(color: Color(0xFFFFFFFF)),
+                ),
+              ),
+            ),
+          ),
+          Text(
+            'Cor selecionada:',
+            style:
+                TextStyle(fontSize: 18, color: Color(EzreminderColors.branco)),
+          ),
+          const SizedBox(height: 10),
+          Container(
+            width: 100,
+            height: 100,
+            decoration: BoxDecoration(
+                color: selectedColor, borderRadius: BorderRadius.circular(20)),
+          ),
+          Container(
+              margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+              child: CustomButton(
+                  label: "Escolher Cor", onPressed: () => pickColor(context))),
+          ValueListenableBuilder<String>(
+            valueListenable: timeText,
+            builder: (context, value, child) {
+              return Text(
+                value,
+                style: const TextStyle(fontSize: 18, color: Color(0xFFFFFFFF)),
+              );
+            },
+          ),
+          Container(
+              margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+              child: CustomButton(
+                  label: "Escolher Horário",
+                  onPressed: () => selectTime(context))),
+          ValueListenableBuilder<String>(
+            valueListenable: dateText,
+            builder: (context, value, child) {
+              return Text(
+                value,
+                style: const TextStyle(fontSize: 18, color: Color(0xFFFFFFFF)),
+              );
+            },
+          ),
+          Container(
+              margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+              child: CustomButton(
+                  label: "Escolher Data",
+                  onPressed: () => selectDate(context))),
+          Container(
+              margin: const EdgeInsets.only(top: 20),
+              child: CustomButton(
+                  label: "Salvar", onPressed: () => editarLembrete())),
+        ],
+      ),
+    ));
   }
 
   editarLembrete() {
@@ -334,7 +299,8 @@ class _EditarLembreteState extends State<EditarLembrete> {
         tipoLembrete: tipoDoLembrete.text,
         cor: selectedColor.value,
         hora: "${horaSelecionada?.hour}:${horaSelecionada?.minute}",
-        data: DateFormat("yyyy-MM-dd").format(selectedDate!));
+        data: DateFormat("yyyy-MM-dd").format(selectedDate!),
+        localizacao: localizacao.text);
 
     lembreteService.adicionarLembrete(lembrete).then((value) {
       if (mounted) {
