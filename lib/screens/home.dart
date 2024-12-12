@@ -2,6 +2,7 @@ import 'package:EZReminder/components/app_layout.dart';
 import 'package:EZReminder/components/card_lembrete.dart';
 import 'package:EZReminder/components/titulo.dart';
 import 'package:EZReminder/global/ezreminder_colors.dart';
+import 'package:EZReminder/main.dart';
 import 'package:EZReminder/models/lembrete_model.dart';
 import 'package:EZReminder/screens/criar_lembrete.dart';
 import 'package:EZReminder/screens/editar_lembrete.dart';
@@ -43,11 +44,9 @@ class _HomeState extends State<Home> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
-                      child: Text(
-                        "Carregando...",
-                        style: TextStyle(color: Color(EzreminderColors.branco)),
-                      ),
-                    );
+                        child: CircularProgressIndicator(
+                      color: Color(EzreminderColors.primaryVerde),
+                    ));
                   } else {
                     if (snapshot.hasData &&
                         snapshot.data != null &&

@@ -37,11 +37,9 @@ class _EstatisticaState extends State<Estatistica> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
-                      child: Text(
-                        "Carregando...",
-                        style: TextStyle(color: Color(EzreminderColors.branco)),
-                      ),
-                    );
+                        child: CircularProgressIndicator(
+                      color: Color(EzreminderColors.primaryVerde),
+                    ));
                   } else {
                     if (snapshot.hasData &&
                         snapshot.data != null &&

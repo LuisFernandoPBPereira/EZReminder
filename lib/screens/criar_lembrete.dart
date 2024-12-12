@@ -1,7 +1,7 @@
+import 'package:EZReminder/components/app_layout.dart';
 import 'package:EZReminder/components/custom_button.dart';
 import 'package:EZReminder/components/custom_notification.dart';
 import 'package:EZReminder/components/custom_snackbar.dart';
-import 'package:EZReminder/components/sidebar.dart';
 import 'package:EZReminder/components/titulo.dart';
 import 'package:EZReminder/global/ezreminder_colors.dart';
 import 'package:EZReminder/global/plano_config.dart';
@@ -30,8 +30,6 @@ class _CriarLembreteState extends State<CriarLembrete> {
   TextEditingController localizacao = TextEditingController();
   ValueNotifier<String> dateText = ValueNotifier('Nenhuma data selecionada');
   ValueNotifier<String> timeText = ValueNotifier('Nenhuma hora selecionada');
-  String tipoLembrete = "";
-  Map<String, dynamic> selectedItem = <String, dynamic>{};
   DateTime? selectedDate;
   TimeOfDay? horaSelecionada;
 
@@ -106,166 +104,130 @@ class _CriarLembreteState extends State<CriarLembrete> {
       super.dispose();
     }
 
-    return SafeArea(
-      child: Scaffold(
-          backgroundColor: Color(EzreminderColors.backgroundPreto),
-          appBar: AppBar(
-            toolbarHeight: 75,
-            backgroundColor: Color(EzreminderColors.primaryVerde),
-            leading: Builder(builder: (context) {
-              return IconButton(
-                icon: const Icon(
-                  Icons.menu,
-                  size: 50,
+    return AppLayout(
+        content: SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Titulo(texto: "Criar Lembrete"),
+          Container(
+            margin: const EdgeInsets.only(bottom: 25),
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 60.0, vertical: 0),
+              child: TextField(
+                controller: nomeDoLembrete,
+                decoration: InputDecoration(
+                  labelStyle: TextStyle(color: Color(EzreminderColors.branco)),
+                  labelText: "Nome do Lembrete",
+                  border: const UnderlineInputBorder(),
                 ),
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-              );
-            }),
-            actions: const [
-              Icon(
-                Icons.notifications,
-                size: 50,
-              )
-            ],
-            automaticallyImplyLeading: false,
-          ),
-          body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Titulo(texto: "Criar Lembrete"),
-                Container(
-                  margin: const EdgeInsets.only(bottom: 25),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 60.0, vertical: 0),
-                    child: TextField(
-                      controller: nomeDoLembrete,
-                      decoration: InputDecoration(
-                        labelStyle:
-                            TextStyle(color: Color(EzreminderColors.branco)),
-                        labelText: "Nome do Lembrete",
-                        border: const UnderlineInputBorder(),
-                      ),
-                      style: const TextStyle(color: Color(0xFFFFFFFF)),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(bottom: 25),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 60.0, vertical: 0),
-                    child: TextField(
-                      controller: descricaoDoLembrete,
-                      decoration: InputDecoration(
-                        labelStyle:
-                            TextStyle(color: Color(EzreminderColors.branco)),
-                        labelText: "Descrição do Lembrete",
-                        border: const UnderlineInputBorder(),
-                      ),
-                      style: const TextStyle(color: Color(0xFFFFFFFF)),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(bottom: 25),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 60.0, vertical: 0),
-                    child: TextField(
-                      controller: tipoDoLembrete,
-                      decoration: InputDecoration(
-                        labelStyle:
-                            TextStyle(color: Color(EzreminderColors.branco)),
-                        labelText: "Tipo do Lembrete",
-                        border: const UnderlineInputBorder(),
-                      ),
-                      style: const TextStyle(color: Color(0xFFFFFFFF)),
-                    ),
-                  ),
-                ),
-                Visibility(
-                  visible: PlanoConfig.planoConfig == Plano.premium,
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 25),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 60.0, vertical: 0),
-                      child: TextField(
-                        controller: localizacao,
-                        decoration: InputDecoration(
-                          labelStyle:
-                              TextStyle(color: Color(EzreminderColors.branco)),
-                          labelText: "Localização",
-                          border: const UnderlineInputBorder(),
-                        ),
-                        style: const TextStyle(color: Color(0xFFFFFFFF)),
-                      ),
-                    ),
-                  ),
-                ),
-                const Text(
-                  'Cor selecionada:',
-                  style: TextStyle(fontSize: 18, color: Color(0xFFFFFFFF)),
-                ),
-                const SizedBox(height: 10),
-                Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                      color: selectedColor,
-                      borderRadius: BorderRadius.circular(20)),
-                ),
-                Container(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                    child: CustomButton(
-                        label: "Escolher Cor",
-                        onPressed: () => pickColor(context))),
-                ValueListenableBuilder<String>(
-                  valueListenable: timeText,
-                  builder: (context, value, child) {
-                    return Text(
-                      value,
-                      style: const TextStyle(
-                          fontSize: 18, color: Color(0xFFFFFFFF)),
-                    );
-                  },
-                ),
-                Container(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                    child: CustomButton(
-                        label: "Escolher Horário",
-                        onPressed: () => selectTime(context))),
-                ValueListenableBuilder<String>(
-                  valueListenable: dateText,
-                  builder: (context, value, child) {
-                    return Text(
-                      value,
-                      style: const TextStyle(
-                          fontSize: 18, color: Color(0xFFFFFFFF)),
-                    );
-                  },
-                ),
-                Container(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                    child: CustomButton(
-                        label: "Escolher Data",
-                        onPressed: () => selectDate(context))),
-                Container(
-                    margin: const EdgeInsets.only(top: 20),
-                    child: CustomButton(
-                        label: "Salvar", onPressed: () => adicionarLembrete())),
-              ],
+                style: const TextStyle(color: Color(0xFFFFFFFF)),
+              ),
             ),
           ),
-          drawer: Sidebar()),
-    );
+          Container(
+            margin: const EdgeInsets.only(bottom: 25),
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 60.0, vertical: 0),
+              child: TextField(
+                controller: descricaoDoLembrete,
+                decoration: InputDecoration(
+                  labelStyle: TextStyle(color: Color(EzreminderColors.branco)),
+                  labelText: "Descrição do Lembrete",
+                  border: const UnderlineInputBorder(),
+                ),
+                style: const TextStyle(color: Color(0xFFFFFFFF)),
+              ),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(bottom: 25),
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 60.0, vertical: 0),
+              child: TextField(
+                controller: tipoDoLembrete,
+                decoration: InputDecoration(
+                  labelStyle: TextStyle(color: Color(EzreminderColors.branco)),
+                  labelText: "Tipo do Lembrete",
+                  border: const UnderlineInputBorder(),
+                ),
+                style: const TextStyle(color: Color(0xFFFFFFFF)),
+              ),
+            ),
+          ),
+          Visibility(
+            visible: PlanoConfig.planoConfig == Plano.premium,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 25),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 60.0, vertical: 0),
+                child: TextField(
+                  controller: localizacao,
+                  decoration: InputDecoration(
+                    labelStyle:
+                        TextStyle(color: Color(EzreminderColors.branco)),
+                    labelText: "Localização",
+                    border: const UnderlineInputBorder(),
+                  ),
+                  style: const TextStyle(color: Color(0xFFFFFFFF)),
+                ),
+              ),
+            ),
+          ),
+          const Text(
+            'Cor selecionada:',
+            style: TextStyle(fontSize: 18, color: Color(0xFFFFFFFF)),
+          ),
+          const SizedBox(height: 10),
+          Container(
+            width: 100,
+            height: 100,
+            decoration: BoxDecoration(
+                color: selectedColor, borderRadius: BorderRadius.circular(20)),
+          ),
+          Container(
+              margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+              child: CustomButton(
+                  label: "Escolher Cor", onPressed: () => pickColor(context))),
+          ValueListenableBuilder<String>(
+            valueListenable: timeText,
+            builder: (context, value, child) {
+              return Text(
+                value,
+                style: const TextStyle(fontSize: 18, color: Color(0xFFFFFFFF)),
+              );
+            },
+          ),
+          Container(
+              margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+              child: CustomButton(
+                  label: "Escolher Horário",
+                  onPressed: () => selectTime(context))),
+          ValueListenableBuilder<String>(
+            valueListenable: dateText,
+            builder: (context, value, child) {
+              return Text(
+                value,
+                style: const TextStyle(fontSize: 18, color: Color(0xFFFFFFFF)),
+              );
+            },
+          ),
+          Container(
+              margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+              child: CustomButton(
+                  label: "Escolher Data",
+                  onPressed: () => selectDate(context))),
+          Container(
+              margin: const EdgeInsets.only(top: 20),
+              child: CustomButton(
+                  label: "Salvar", onPressed: () => adicionarLembrete())),
+        ],
+      ),
+    ));
   }
 
   adicionarLembrete() {
@@ -337,6 +299,15 @@ class _CriarLembreteState extends State<CriarLembrete> {
     if (selectedDate == null) {
       mostrarSnackBar(
           context: context, texto: "É preciso dar uma data para o lembrete");
+      return false;
+    }
+
+    DateTime dataComparada = DateTime(selectedDate!.year, selectedDate!.month,
+        selectedDate!.day, horaSelecionada!.hour, horaSelecionada!.minute);
+
+    if (dataComparada.isBefore(DateTime.now())) {
+      mostrarSnackBar(
+          context: context, texto: "A data e hora não podem ser no passado");
       return false;
     }
 
